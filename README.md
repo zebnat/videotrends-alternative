@@ -4,7 +4,7 @@ A React SPA with a list of trending videos using custom algorithm for sorting th
 
 ## Features
 
-* Custom trends algorithm
-* Select a country and view their video trends
-* Option to discover small channels
-* Updates once a day
+- Custom trends algorithm
+- Select a country and view their video trends
+- Option to discover small channels
+- Updates once a day
