@@ -1,33 +1,97 @@
+body {
+ margin: 0;
+ padding: 0;
+ font-family: sans-serif;
+ background: #0f0f0f;
+ color: #e3e3e3;
+}
+
+h1 {
+ font-size: 280%;
+ font-weight: bold;
+}
 .App {
-  text-align: center;
+ padding: 4px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.selectBlock {
+ float: right;
+}
+.formOpts {
+ line-height: 2em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.formOpts select,
+.formOpts label {
+ font-size: 120%;
 }
 
-.App-link {
-  color: #61dafb;
+.formOpts input {
+ -ms-transform: scale(1.5); /* IE */
+ -moz-transform: scale(1.5); /* FF */
+ -webkit-transform: scale(1.5); /* Safari and Chrome */
+ -o-transform: scale(1.5); /* Opera */
+ transform: scale(1.5);
+ padding: 10px;
+ margin-left: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.video-list {
+ clear: both;
+ text-align: left;
+ margin: 0;
+ padding: 0;
+}
+
+.trend-video {
+ float: left;
+ margin: 14px 5px;
+ list-style: none;
+}
+
+@media only screen and (max-width: 386px) {
+ .trend-video {
+  width: 90%;
+ }
+ .selectBlock {
+  float: left;
+ }
+}
+
+@media only screen and (min-width: 387px) and (max-width: 599px) {
+ .trend-video {
+  width: 70%;
+ }
+ .selectBlock {
+  float: left;
+ }
+}
+
+@media only screen and (min-width: 600px) {
+ .trend-video {
+  width: 280px;
+ }
+}
+
+.tl {
+ padding: 10px;
+ display: block;
+ height: 37px;
+}
+
+.trend-video a {
+ color: #167ac6;
+ font-weight: bold;
+ text-decoration: none;
+ margin: 5px;
+ font-size: 90%;
+}
+
+.trend-video a:hover {
+ text-decoration: underline;
+}
+
+.trend-video img {
+ width: 100%;
+ height: auto;
 }
