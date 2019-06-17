@@ -18,7 +18,8 @@
   "build": "react-scripts build",
   "test": "react-scripts test",
   "eject": "react-scripts eject",
-  "videos": "tsc ./scripts/update-videos.tsx && node ./scripts/update-videos.js"
+  "videos": "tsc ./scripts/update-videos.tsx && node ./scripts/update-videos.js",
+  "serve": "serve -s build"
  },
  "eslintConfig": {
   "extends": "react-app"
