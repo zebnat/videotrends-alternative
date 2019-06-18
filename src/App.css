@@ -1,97 +1,97 @@
 body {
- margin: 0;
- padding: 0;
- font-family: sans-serif;
- background: #0f0f0f;
- color: #e3e3e3;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #0f0f0f;
+  color: #e3e3e3;
 }
 
 h1 {
- font-size: 280%;
- font-weight: bold;
+  font-size: 280%;
+  font-weight: bold;
 }
 .App {
- padding: 4px;
+  padding: 4px;
 }
 
 .selectBlock {
- float: right;
+  float: right;
 }
 .formOpts {
- line-height: 2em;
+  line-height: 2em;
 }
 
 .formOpts select,
 .formOpts label {
- font-size: 120%;
+  font-size: 120%;
 }
 
 .formOpts input {
- -ms-transform: scale(1.5); /* IE */
- -moz-transform: scale(1.5); /* FF */
- -webkit-transform: scale(1.5); /* Safari and Chrome */
- -o-transform: scale(1.5); /* Opera */
- transform: scale(1.5);
- padding: 10px;
- margin-left: 10px;
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+  padding: 10px;
+  margin-left: 10px;
 }
 
 .video-list {
- clear: both;
- text-align: left;
- margin: 0;
- padding: 0;
+  clear: both;
+  text-align: left;
+  margin: 0;
+  padding: 0;
 }
 
 .trend-video {
- float: left;
- margin: 14px 5px;
- list-style: none;
+  float: left;
+  margin: 14px 5px;
+  list-style: none;
 }
 
 @media only screen and (max-width: 386px) {
- .trend-video {
-  width: 90%;
- }
- .selectBlock {
-  float: left;
- }
+  .trend-video {
+    width: 90%;
+  }
+  .selectBlock {
+    float: left;
+  }
 }
 
 @media only screen and (min-width: 387px) and (max-width: 599px) {
- .trend-video {
-  width: 70%;
- }
- .selectBlock {
-  float: left;
- }
+  .trend-video {
+    width: 70%;
+  }
+  .selectBlock {
+    float: left;
+  }
 }
 
 @media only screen and (min-width: 600px) {
- .trend-video {
-  width: 280px;
- }
+  .trend-video {
+    width: 280px;
+  }
 }
 
 .tl {
- padding: 10px;
- display: block;
- height: 37px;
+  padding: 10px;
+  display: block;
+  height: 37px;
 }
 
 .trend-video a {
- color: #167ac6;
- font-weight: bold;
- text-decoration: none;
- margin: 5px;
- font-size: 90%;
+  color: #167ac6;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 5px;
+  font-size: 90%;
 }
 
 .trend-video a:hover {
- text-decoration: underline;
+  text-decoration: underline;
 }
 
 .trend-video img {
- width: 100%;
- height: auto;
+  width: 100%;
+  height: auto;
 }
