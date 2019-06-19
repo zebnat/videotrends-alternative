@@ -25,5 +25,5 @@ yarn-error.log*
 
 
 
-/scripts/**/*.js
-/cache
+/video-updater/**/*.js
+/cache/*

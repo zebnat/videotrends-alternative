@@ -1,12 +1,12 @@
+import axios from 'axios'
 import React, {
-  useState,
-  useEffect,
   ChangeEvent,
+  useEffect,
+  useState,
 } from 'react'
 import './App.css'
-import Video from './components/Video'
-import { IVideo } from './components/Video'
-import axios from 'axios'
+import Video, { IVideo } from './components/Video'
+import { RegionList } from './config/config'
 
 const App: React.FC = () => {
   let [videos, setVideos] = useState<Array<IVideo>>([])
@@ -14,7 +14,7 @@ const App: React.FC = () => {
     false
   )
   let [country, setCountry] = useState<string>('select')
-
+  /*
   const acceptedCountries: Array<string> = [
     'es-es',
     'en-us',
@@ -31,7 +31,16 @@ const App: React.FC = () => {
     'ko-kr',
     'nl-nl',
     'zh-hk',
-  ]
+	]
+	*/
+
+  var acceptedCountries: Array<string> = []
+  for (let x in RegionList) {
+    acceptedCountries.push(
+      RegionList[x].language + '-' + RegionList[x].country
+    )
+  }
+
   const toogleSmall = () => {
     setSmallChannel(!smallChannel)
   }
@@ -46,8 +55,9 @@ const App: React.FC = () => {
     return countryFound
   }
 
-  const changeCountry = async (locale: string) => {
-    console.log(locale)
+  const changeCountry = async (
+    locale: string
+  ): Promise<void> => {
     let countryFound = allowedCountry(locale)
     if (countryFound) {
       const videos = await axios.get(

@@ -1,5 +1,5 @@
 import UrlParamEncoder from './UrlParamEncoder'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 export interface IVideoCategoriesConfig {
   part: string
@@ -57,9 +57,18 @@ export default class YoutubeApiFetcher {
     )
   }
 
-  public fetchVideoCategories(
+  public async fetchVideoCategories(
     config: IVideoCategoriesConfig
   ): Promise<IVideoCategoriesApiResponse> {
-    return axios.get(this.getVideoCategoriesUrl(config))
+    let res: AxiosResponse
+    try {
+      res = await axios.get(
+        this.getVideoCategoriesUrl(config)
+      )
+    } catch (e) {
+      throw e
+    }
+
+    return res.data
   }
 }

@@ -18,9 +18,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "videos": "tsc ./scripts/update-videos.tsx && node ./scripts/update-videos.js",
+    "videos": "tsc ./video-updater/index.tsx && node ./video-updater/index.js",
     "serve": "serve -s build",
-    "prettier": "prettier --write \"./{src,scripts}/**/*.{tsx,css,ts,js}\""
+    "prettier": "prettier --write \"./{src,video-updater}/**/*.{tsx,css,ts,js}\""
   },
   "eslintConfig": {
     "extends": "react-app"
