@@ -1,15 +1,16 @@
 import { ICacheFiles } from './App'
-import { IVideoCategoriesApiResponse } from './YoutubeApiFetcher'
 import { readFileSync, writeFileSync } from 'fs'
-import CategoriesFetcher from './CategoriesFetcher'
+import CategoriesFetcher, {
+  IVideoCategories,
+} from './CategoriesFetcher'
 
 const CachedCategoriesFetcher = async (
   cache: boolean,
   cfg: ICacheFiles,
   catFetcher: CategoriesFetcher
-) => {
+): Promise<IVideoCategories[]> => {
   return new Promise(async (resolve, reject) => {
-    let categories: IVideoCategoriesApiResponse[]
+    let categories: IVideoCategories[]
 
     if (cache) {
       try {

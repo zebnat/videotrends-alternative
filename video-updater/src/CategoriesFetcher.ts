@@ -3,23 +3,33 @@ import YoutubeApiFetcher, {
 } from './YoutubeApiFetcher'
 import { ILocale } from '../../src/config/config'
 
+export interface IVideoCategories
+  extends IVideoCategoriesApiResponse {
+  regionCode: string
+  hl: string
+}
+
 export default class CategoriesFetcher {
   regionList: ILocale[]
   api: YoutubeApiFetcher
 
-  constructor(apiKey: string, regionList: ILocale[]) {
+  constructor(
+    api: YoutubeApiFetcher,
+    regionList: ILocale[]
+  ) {
     this.regionList = regionList
-    this.api = new YoutubeApiFetcher(apiKey)
+    this.api = api
   }
 
-  public async fetchAll(): Promise<[]> {
-    let p: Promise<IVideoCategoriesApiResponse>[] = []
+  public async fetchAll(): Promise<IVideoCategories[]> {
+    let p: Promise<IVideoCategories>[] = []
 
     this.regionList.forEach((l: ILocale) => {
       p.push(this.fetchOne(l))
     })
 
-    let data: any
+    let data: IVideoCategories[]
+
     try {
       data = await Promise.all(p)
     } catch (error) {
@@ -29,11 +39,9 @@ export default class CategoriesFetcher {
     return data
   }
 
-  private fetchOne(
-    l: ILocale
-  ): Promise<IVideoCategoriesApiResponse> {
+  private fetchOne(l: ILocale): Promise<IVideoCategories> {
     return new Promise(async (resolve, reject) => {
-      let list: IVideoCategoriesApiResponse
+      let list: IVideoCategories
 
       try {
         let apiData = await this.api.fetchVideoCategories({
@@ -50,10 +58,10 @@ export default class CategoriesFetcher {
             name: item.snippet.title,
           }))
 
-        apiData['regionCode'] = l.country
-        apiData['hl'] = l.language
-
-        list = apiData
+        list = Object.assign(apiData, {
+          regionCode: l.country,
+          hl: l.language,
+        })
       } catch (error) {
         reject(error)
       }

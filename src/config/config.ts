@@ -10,12 +10,12 @@ export const RegionList: ILocale[] = [
     country: 'es',
     screenName: 'España (Spain)',
   },
-  {
+  /*{
     language: 'en',
     country: 'us',
     screenName: 'United States',
   },
-  {
+   {
     language: 'fr',
     country: 'fr',
     screenName: 'La France',
@@ -75,5 +75,5 @@ export const RegionList: ILocale[] = [
     language: 'ko',
     country: 'kr',
     screenName: '대한민국 (S.Korea)',
-  },
+  },*/
 ]
