@@ -1,7 +1,7 @@
+import { ILocale } from '../../src/common/types'
 import YoutubeApiFetcher, {
   IVideoCategoriesApiResponse,
 } from './YoutubeApiFetcher'
-import { ILocale } from '../../src/config/config'
 
 export interface IVideoCategories
   extends IVideoCategoriesApiResponse {

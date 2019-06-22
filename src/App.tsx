@@ -5,7 +5,8 @@ import React, {
   useState,
 } from 'react'
 import './App.css'
-import Video, { IVideo } from './components/Video'
+import { IVideo } from './common/types'
+import Video from './components/Video'
 import { RegionList } from './config/config'
 
 const App: React.FC = () => {
@@ -14,25 +15,6 @@ const App: React.FC = () => {
     false
   )
   let [country, setCountry] = useState<string>('select')
-  /*
-  const acceptedCountries: Array<string> = [
-    'es-es',
-    'en-us',
-    'fr-fr',
-    'en-gb',
-    'es-mx',
-    'es-ar',
-    'es-cl',
-    'ar-kw',
-    'ar-qa',
-    'de-de',
-    'it-it',
-    'ja-jp',
-    'ko-kr',
-    'nl-nl',
-    'zh-hk',
-	]
-	*/
 
   var acceptedCountries: Array<string> = []
   for (let x in RegionList) {
@@ -119,29 +101,11 @@ const App: React.FC = () => {
           <label>Country: </label>
           <select onChange={selectChanged} value={country}>
             <option value="select">Select</option>
-            <option value="es-es">España (Spain)</option>
-            <option value="en-us">United States</option>
-            <option value="fr-fr">La France</option>
-            <option value="en-gb">United Kingdom</option>
-            <option value="es-mx">México</option>
-            <option value="es-ar">Argentina</option>
-            <option value="es-cl">Chile</option>
-            <option value="de-de">
-              Deutschland (Germany)
-            </option>
-            <option value="it-it">Italia (Italy)</option>
-            <option value="nl-nl">
-              Nederland (Netherlands)
-            </option>
-            <option value="zh-hk">
-              香港粵語 (Hong Kong)
-            </option>
-            <option value="ja-jp">日本 (Japan)</option>
-            <option value="ko-kr">
-              대한민국 (S.Korea)
-            </option>
-            <option value="ar-qa">قطر (Qatar)</option>
-            <option value="ar-kw">الكويت (Kuwait)</option>
+            {RegionList.map(e => (
+              <option value={e.language + '-' + e.country}>
+                {e.screenName}
+              </option>
+            ))}
           </select>
         </div>
       </div>

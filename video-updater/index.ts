@@ -1,7 +1,7 @@
-import { IConfig, App } from './src/App'
-import { RegionList } from '../src/config/config'
-import { resolve } from 'path'
 import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+import { RegionList } from '../src/config/config'
+import { App, IConfig } from './src/App'
 
 dotenv.config()
 

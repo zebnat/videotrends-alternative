@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "videos": "tsc ./video-updater/index.tsx && node ./video-updater/index.js",
+    "videos": "tsc ./video-updater/index.ts && node ./video-updater/index.js",
     "serve": "serve -s build",
     "prettier": "prettier --write \"./{src,video-updater}/**/*.{tsx,css,ts,js}\""
   },

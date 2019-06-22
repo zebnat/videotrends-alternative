@@ -1,5 +1,5 @@
-import { ICacheFiles } from './App'
 import { readFileSync, writeFileSync } from 'fs'
+import { ICacheFiles } from './App'
 import CategoriesFetcher, {
   IVideoCategories,
 } from './CategoriesFetcher'

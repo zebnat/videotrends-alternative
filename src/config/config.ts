@@ -1,8 +1,4 @@
-export interface ILocale {
-  language: string
-  country: string
-  screenName: string
-}
+import { ILocale } from '../common/types'
 
 export const RegionList: ILocale[] = [
   {
@@ -10,16 +6,16 @@ export const RegionList: ILocale[] = [
     country: 'es',
     screenName: 'España (Spain)',
   },
-  /*{
+  {
     language: 'en',
     country: 'us',
     screenName: 'United States',
   },
-   {
+  {
     language: 'fr',
     country: 'fr',
     screenName: 'La France',
-  },
+  } /*
   {
     language: 'de',
     country: 'de',
@@ -75,5 +71,5 @@ export const RegionList: ILocale[] = [
     language: 'ko',
     country: 'kr',
     screenName: '대한민국 (S.Korea)',
-  },*/
+  },*/,
 ]

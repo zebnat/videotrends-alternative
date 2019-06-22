@@ -1,6 +1,5 @@
-import UrlParamEncoder from './UrlParamEncoder'
 import axios, { AxiosResponse } from 'axios'
-import { id } from 'postcss-selector-parser'
+import { UrlParamEncoder } from './Utils'
 
 export interface IVideoCategoriesConfig {
   part: string
@@ -13,11 +12,11 @@ export interface IVideosFromCategoryConfig
   pageToken?: string
 }
 export interface IVideoList {
-  kind: string
-  etag: string
-  nextPageToken: string
-  pageInfo: object
   items: IVideoResource[]
+  kind?: string
+  etag?: string
+  nextPageToken?: string
+  pageInfo?: object
 }
 interface IPageInfo {
   totalResults: number
@@ -37,12 +36,22 @@ export interface IVideoCategoryResource {
   snippet: ISnippet
 }
 
+interface IThumbnailsData {
+  url: string
+  width: number
+  height: number
+}
+
+interface IThumbnails {
+  medium: IThumbnailsData
+}
+
 interface IVideoSnippet {
   publishedAt: string
   channelId: string
   title: string
   description: string
-  thumbnails: object
+  thumbnails: IThumbnails
   channelTitle: string
   tags: [string]
   categoryId: string
@@ -89,13 +98,6 @@ export interface IVideoResource {
   status: IVideoStatus
   statistics: IVideoStatistics
   player: object
-  topicDetails: object
-  recordingDetails: object
-  fileDetails: object
-  processingDetails: object
-  suggestions: object
-  liveStreamingDetails: object
-  localizations: object
   categories?: [string]
 }
 export interface IVideoCategoriesApiResponse {
@@ -105,6 +107,27 @@ export interface IVideoCategoriesApiResponse {
   prevPageToken: string
   pageInfo: IPageInfo
   items: IVideoCategoryResource[]
+}
+
+interface IChannelStatistics {
+  subscriberCount: number
+  viewCount: number
+}
+
+interface IChannelSnippet {
+  title: string
+}
+
+export interface IChannelsResource {
+  id: string
+  snippet: IChannelSnippet
+  statistics: IChannelStatistics
+}
+
+export interface IChannelsApiResponse {
+  kind: string
+  etag: string
+  items: IChannelsResource[]
 }
 
 export default class YoutubeApiFetcher {
@@ -139,6 +162,7 @@ export default class YoutubeApiFetcher {
         this.getVideoCategoriesUrl(config)
       )
     } catch (e) {
+      console.log('OOMG?')
       throw e
     }
 
@@ -147,16 +171,7 @@ export default class YoutubeApiFetcher {
 
   private getVideosFromCategoryUrl(
     config: IVideosFromCategoryConfig
-  ) {
-    console.log(
-      this.getApiUrl() +
-        'videos?' +
-        UrlParamEncoder(config) +
-        '&chart=mostPopular' +
-        '&maxResults=50' +
-        '&key=' +
-        this.apiKey
-    )
+  ): string {
     return (
       this.getApiUrl() +
       'videos?' +
@@ -173,10 +188,58 @@ export default class YoutubeApiFetcher {
   ): Promise<IVideoList> {
     let res: AxiosResponse
     try {
-      res = await axios.get(
-        this.getVideosFromCategoryUrl(config)
-      )
+      res = await axios
+        .get(this.getVideosFromCategoryUrl(config))
+        .catch(e => {
+          console.log('Errors happen brah')
+          throw e
+        })
+      return res.data
     } catch (e) {
+      if (
+        e.response.status !== undefined &&
+        e.response.status == 400
+      ) {
+        console.log('Is this cached right?')
+        throw new Error('videoChartNotFound')
+      } else {
+        console.log(
+          'OHHHHH FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
+        )
+        console.log(e)
+
+        throw e
+      }
+    }
+  }
+
+  private getChannelsFromIdUrl(
+    channelIds: [string]
+  ): string {
+    return (
+      this.getApiUrl() +
+      'channels?' +
+      'part=id,snippet,statistics' +
+      '&id=' +
+      channelIds.join(',') +
+      '&key=' +
+      this.apiKey
+    )
+  }
+
+  public async fetchChannelsFromIds(
+    channelIds: [string]
+  ): Promise<IChannelsApiResponse> {
+    let res: AxiosResponse
+    try {
+      res = await axios
+        .get(this.getChannelsFromIdUrl(channelIds))
+        .catch(e => {
+          throw e
+        })
+    } catch (e) {
+      console.log('channels kaboom!')
+      console.log(e)
       throw e
     }
 
