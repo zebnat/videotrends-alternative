@@ -14,10 +14,6 @@ export default class VideosFetcher {
     this.api = api
   }
 
-  /**
-   *
-   * @todo add cache logic
-   */
   fetchVideosFromAllCountryCategories(
     categoriesList: IVideoCategories[]
   ): Promise<[IVideoResource[], object][]> {
@@ -39,15 +35,6 @@ export default class VideosFetcher {
     categories: IVideoCategories
   ): Promise<[IVideoResource[], object]> {
     let promiseQueue: Promise<IVideoResource[]>[] = []
-
-    // For debug purposes we send only 1 category
-    /*promiseQueue.push(
-      this.fetchVideosFromCategory(
-        categories.regionCode,
-        categories.hl,
-        categories.items[0]
-      )
-    )*/
 
     categories.items.forEach(category => {
       promiseQueue.push(
@@ -127,7 +114,6 @@ export default class VideosFetcher {
 
       // @todo refactor this mess
       if (video.snippet.defaultAudioLanguage !== undefined) {
-        console.log('defaultAudioLanguage defined')
         isVideoRegion = video.snippet.defaultAudioLanguage.match(
           /[a-zA-Z0-9]+\-[a-zA-Z0-9]+/
         )
@@ -161,8 +147,6 @@ export default class VideosFetcher {
         } else {
           fromMyLanguage = false
         }
-
-        console.log('defaultAudioLanguage undefined!')
       }
 
       const published = video.status.privacyStatus == 'public'
@@ -191,7 +175,11 @@ export default class VideosFetcher {
         if (cleanedVideos[vid.id] === undefined) {
           cleanedVideos[vid.id] = vid
         } else {
-          cleanedVideos[vid.id]['categories'].push(vid.categories)
+          if (vid.categories.length > 0) {
+            vid.categories.forEach(category => {
+              cleanedVideos[vid.id]['categories'].push(category)
+            })
+          }
         }
       })
     })
@@ -241,8 +229,6 @@ export default class VideosFetcher {
           throw e
         }
       }
-
-      console.log('succeed')
 
       if (videos.items !== undefined) {
         videos.items.forEach(video => {

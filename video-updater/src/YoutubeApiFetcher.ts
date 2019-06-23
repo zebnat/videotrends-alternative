@@ -157,7 +157,6 @@ export default class YoutubeApiFetcher {
     try {
       res = await axios.get(this.getVideoCategoriesUrl(config))
     } catch (e) {
-      console.log('OOMG?')
       throw e
     }
 

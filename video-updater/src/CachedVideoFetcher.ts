@@ -17,13 +17,10 @@ export const CachedVideoFetcher = (
       try {
         let jsonFile: any = readFileSync(cfg.videos)
         videos = JSON.parse(jsonFile)
-
-        console.log('videos from cache')
         resolve(videos)
       } catch (error) {
         // there is no cache file yet
         if (error.code == 'ENOENT') {
-          console.log('no cache file for videos!!!')
           //re-runs function without cache
           resolve(CachedVideoFetcher(false, cfg, categoryPack, videoFetcher))
         } else {
@@ -31,8 +28,6 @@ export const CachedVideoFetcher = (
         }
       }
     } else {
-      console.log('fetching Videos')
-
       videos = await videoFetcher.fetchVideosFromAllCountryCategories(
         categoryPack
       )
@@ -43,7 +38,6 @@ export const CachedVideoFetcher = (
         throw Error
       }
 
-      console.log('videos without cache')
       resolve(videos)
     }
   })
