@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react'
 import './App.css'
 import { IVideo } from './common/types'
 import Video from './components/Video'
@@ -9,6 +9,7 @@ const App: React.FC = () => {
   let [videos, setVideos] = useState<Array<IVideo>>([])
   let [smallChannel, setSmallChannel] = useState<boolean>(false)
   let [country, setCountry] = useState<string>('select')
+  let selectEl = useRef(null)
 
   var acceptedCountries: Array<string> = []
   for (let x in RegionList) {
@@ -52,6 +53,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     forceScroll()
+    if (window.navigator.language !== undefined) {
+      changeCountry(window.navigator.language.toLocaleLowerCase())
+    }
   }, [])
 
   const videoList = smallChannel ? videos.filter(v => v.subs < 200000) : videos
@@ -83,10 +87,10 @@ const App: React.FC = () => {
         <input type="checkbox" onClick={toogleSmall} />
         <div className="selectBlock">
           <label>Country: </label>
-          <select onChange={selectChanged} value={country}>
+          <select ref={selectEl} onChange={selectChanged} value={country}>
             <option value="select">Select</option>
-            {RegionList.map(e => (
-              <option value={e.language + '-' + e.country}>
+            {RegionList.map((e, i) => (
+              <option key={i} value={e.language + '-' + e.country}>
                 {e.screenName}
               </option>
             ))}
