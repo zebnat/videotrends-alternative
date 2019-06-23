@@ -3,8 +3,7 @@ import YoutubeApiFetcher, {
   IVideoCategoriesApiResponse,
 } from './YoutubeApiFetcher'
 
-export interface IVideoCategories
-  extends IVideoCategoriesApiResponse {
+export interface IVideoCategories extends IVideoCategoriesApiResponse {
   regionCode: string
   hl: string
 }
@@ -13,10 +12,7 @@ export default class CategoriesFetcher {
   regionList: ILocale[]
   api: YoutubeApiFetcher
 
-  constructor(
-    api: YoutubeApiFetcher,
-    regionList: ILocale[]
-  ) {
+  constructor(api: YoutubeApiFetcher, regionList: ILocale[]) {
     this.regionList = regionList
     this.api = api
   }

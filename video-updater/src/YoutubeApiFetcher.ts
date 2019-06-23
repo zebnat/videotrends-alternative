@@ -6,8 +6,7 @@ export interface IVideoCategoriesConfig {
   regionCode: string
   hl: string
 }
-export interface IVideosFromCategoryConfig
-  extends IVideoCategoriesConfig {
+export interface IVideosFromCategoryConfig extends IVideoCategoriesConfig {
   videoCategoryId: string
   pageToken?: string
 }
@@ -141,9 +140,7 @@ export default class YoutubeApiFetcher {
     return 'https://www.googleapis.com/youtube/v3/'
   }
 
-  private getVideoCategoriesUrl(
-    config: IVideoCategoriesConfig
-  ): string {
+  private getVideoCategoriesUrl(config: IVideoCategoriesConfig): string {
     return (
       this.getApiUrl() +
       'videoCategories?' +
@@ -158,9 +155,7 @@ export default class YoutubeApiFetcher {
   ): Promise<IVideoCategoriesApiResponse> {
     let res: AxiosResponse
     try {
-      res = await axios.get(
-        this.getVideoCategoriesUrl(config)
-      )
+      res = await axios.get(this.getVideoCategoriesUrl(config))
     } catch (e) {
       console.log('OOMG?')
       throw e
@@ -169,9 +164,7 @@ export default class YoutubeApiFetcher {
     return res.data
   }
 
-  private getVideosFromCategoryUrl(
-    config: IVideosFromCategoryConfig
-  ): string {
+  private getVideosFromCategoryUrl(config: IVideosFromCategoryConfig): string {
     return (
       this.getApiUrl() +
       'videos?' +
@@ -188,24 +181,17 @@ export default class YoutubeApiFetcher {
   ): Promise<IVideoList> {
     let res: AxiosResponse
     try {
-      res = await axios
-        .get(this.getVideosFromCategoryUrl(config))
-        .catch(e => {
-          console.log('Errors happen brah')
-          throw e
-        })
+      res = await axios.get(this.getVideosFromCategoryUrl(config)).catch(e => {
+        console.log('Errors happen brah')
+        throw e
+      })
       return res.data
     } catch (e) {
-      if (
-        e.response.status !== undefined &&
-        e.response.status == 400
-      ) {
+      if (e.response.status !== undefined && e.response.status == 400) {
         console.log('Is this cached right?')
         throw new Error('videoChartNotFound')
       } else {
-        console.log(
-          'OHHHHH FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK'
-        )
+        console.log('OHHHHH FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
         console.log(e)
 
         throw e
@@ -213,9 +199,7 @@ export default class YoutubeApiFetcher {
     }
   }
 
-  private getChannelsFromIdUrl(
-    channelIds: [string]
-  ): string {
+  private getChannelsFromIdUrl(channelIds: [string]): string {
     return (
       this.getApiUrl() +
       'channels?' +
@@ -232,11 +216,9 @@ export default class YoutubeApiFetcher {
   ): Promise<IChannelsApiResponse> {
     let res: AxiosResponse
     try {
-      res = await axios
-        .get(this.getChannelsFromIdUrl(channelIds))
-        .catch(e => {
-          throw e
-        })
+      res = await axios.get(this.getChannelsFromIdUrl(channelIds)).catch(e => {
+        throw e
+      })
     } catch (e) {
       console.log('channels kaboom!')
       console.log(e)

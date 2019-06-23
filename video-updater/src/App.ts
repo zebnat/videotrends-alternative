@@ -6,9 +6,7 @@ import CachedCategoriesFetcher from './CachedCategoriesFetcher'
 import CachedVideoFetcher from './CachedVideoFetcher'
 import CategoriesFetcher from './CategoriesFetcher'
 import VideosFetcher from './VideosFetcher'
-import YoutubeApiFetcher, {
-  IVideoResource,
-} from './YoutubeApiFetcher'
+import YoutubeApiFetcher, { IVideoResource } from './YoutubeApiFetcher'
 
 export interface ICacheFiles {
   categories: string
@@ -28,13 +26,8 @@ export class App {
 
   constructor(config: IConfig) {
     this.config = config
-    let api: YoutubeApiFetcher = new YoutubeApiFetcher(
-      config.apikey
-    )
-    this.catFetcher = new CategoriesFetcher(
-      api,
-      config.regionList
-    )
+    let api: YoutubeApiFetcher = new YoutubeApiFetcher(config.apikey)
+    this.catFetcher = new CategoriesFetcher(api, config.regionList)
     this.videoFetcher = new VideosFetcher(api)
   }
 

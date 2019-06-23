@@ -1,9 +1,5 @@
 import axios from 'axios'
-import React, {
-  ChangeEvent,
-  useEffect,
-  useState,
-} from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import './App.css'
 import { IVideo } from './common/types'
 import Video from './components/Video'
@@ -11,16 +7,12 @@ import { RegionList } from './config/config'
 
 const App: React.FC = () => {
   let [videos, setVideos] = useState<Array<IVideo>>([])
-  let [smallChannel, setSmallChannel] = useState<boolean>(
-    false
-  )
+  let [smallChannel, setSmallChannel] = useState<boolean>(false)
   let [country, setCountry] = useState<string>('select')
 
   var acceptedCountries: Array<string> = []
   for (let x in RegionList) {
-    acceptedCountries.push(
-      RegionList[x].language + '-' + RegionList[x].country
-    )
+    acceptedCountries.push(RegionList[x].language + '-' + RegionList[x].country)
   }
 
   const toogleSmall = () => {
@@ -37,22 +29,16 @@ const App: React.FC = () => {
     return countryFound
   }
 
-  const changeCountry = async (
-    locale: string
-  ): Promise<void> => {
+  const changeCountry = async (locale: string): Promise<void> => {
     let countryFound = allowedCountry(locale)
     if (countryFound) {
-      const videos = await axios.get(
-        '../data/dataset-' + locale + '.json'
-      )
+      const videos = await axios.get('../data/dataset-' + locale + '.json')
       setCountry(locale)
       setVideos(videos.data)
     }
   }
 
-  const selectChanged = (
-    e: ChangeEvent<HTMLSelectElement>
-  ) => {
+  const selectChanged = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target !== null) {
       changeCountry(e.target.value)
     }
@@ -68,9 +54,7 @@ const App: React.FC = () => {
     forceScroll()
   }, [])
 
-  const videoList = smallChannel
-    ? videos.filter(v => v.subs < 200000)
-    : videos
+  const videoList = smallChannel ? videos.filter(v => v.subs < 200000) : videos
 
   let videoBlock
   if (country === 'select') {

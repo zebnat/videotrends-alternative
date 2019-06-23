@@ -21,14 +21,10 @@ export default class VideosFetcher {
   fetchVideosFromAllCountryCategories(
     categoriesList: IVideoCategories[]
   ): Promise<[IVideoResource[], object][]> {
-    let promiseQueue: Promise<
-      [IVideoResource[], object]
-    >[] = []
+    let promiseQueue: Promise<[IVideoResource[], object]>[] = []
     categoriesList.forEach(countrySpecificCategories => {
       promiseQueue.push(
-        this.fetchVideosFromCategories(
-          countrySpecificCategories
-        )
+        this.fetchVideosFromCategories(countrySpecificCategories)
       )
     })
 
@@ -63,9 +59,7 @@ export default class VideosFetcher {
       )
     })
 
-    let videos: IVideoResource[][] = await Promise.all(
-      promiseQueue
-    )
+    let videos: IVideoResource[][] = await Promise.all(promiseQueue)
 
     let filteredVideos: IVideoResource[] = this.processAndFilterVideos(
       videos,
@@ -73,9 +67,7 @@ export default class VideosFetcher {
       categories.regionCode
     )
 
-    let channels = await this.fetchChannelsFromVideos(
-      filteredVideos
-    )
+    let channels = await this.fetchChannelsFromVideos(filteredVideos)
 
     return [filteredVideos, channels]
   }
@@ -89,18 +81,11 @@ export default class VideosFetcher {
         channelsIndex[vid.snippet.channelId] = true
       })
 
-      let channelgroups = splitArrayInChunks(
-        Object.keys(channelsIndex),
-        10
-      )
+      let channelgroups = splitArrayInChunks(Object.keys(channelsIndex), 10)
 
-      let channelApiCalls: Promise<
-        IChannelsApiResponse
-      >[] = []
+      let channelApiCalls: Promise<IChannelsApiResponse>[] = []
       channelgroups.forEach(group => {
-        channelApiCalls.push(
-          this.api.fetchChannelsFromIds(group)
-        )
+        channelApiCalls.push(this.api.fetchChannelsFromIds(group))
       })
 
       let channels = await Promise.all(channelApiCalls)
@@ -129,9 +114,7 @@ export default class VideosFetcher {
     lang: string,
     region: string
   ): IVideoResource[] {
-    let videos = this.mergeVideosAndTheirCategories(
-      listOfVideosPerCategory
-    )
+    let videos = this.mergeVideosAndTheirCategories(listOfVideosPerCategory)
     let allowLangs = new RegExp(
       '/' + lang + '-([a-zA-Z0-9].+|[a-zA-Z0-9])$/',
       'i'
@@ -143,9 +126,7 @@ export default class VideosFetcher {
       var isVideoRegion: RegExpMatchArray = undefined
 
       // @todo refactor this mess
-      if (
-        video.snippet.defaultAudioLanguage !== undefined
-      ) {
+      if (video.snippet.defaultAudioLanguage !== undefined) {
         console.log('defaultAudioLanguage defined')
         isVideoRegion = video.snippet.defaultAudioLanguage.match(
           /[a-zA-Z0-9]+\-[a-zA-Z0-9]+/
@@ -156,8 +137,7 @@ export default class VideosFetcher {
             video.snippet.defaultAudioLanguage.toLowerCase() ==
             lang + '-' + region
         } else {
-          fromMyLanguage =
-            video.snippet.defaultAudioLanguage == lang
+          fromMyLanguage = video.snippet.defaultAudioLanguage == lang
           /* vanilla filter
 						fromMyLanguage = (
 							video.snippet.defaultAudioLanguage == lang
@@ -171,16 +151,12 @@ export default class VideosFetcher {
       } else {
         if (video.snippet.defaultLanguage !== undefined) {
           if (
-            video.snippet.defaultLanguage.match(
-              /[a-zA-Z0-9]+\-[a-zA-Z0-9]+/
-            )
+            video.snippet.defaultLanguage.match(/[a-zA-Z0-9]+\-[a-zA-Z0-9]+/)
           ) {
             fromMyLanguage =
-              video.snippet.defaultLanguage.toLowerCase() ==
-              lang + '-' + region
+              video.snippet.defaultLanguage.toLowerCase() == lang + '-' + region
           } else {
-            fromMyLanguage =
-              video.snippet.defaultLanguage == lang
+            fromMyLanguage = video.snippet.defaultLanguage == lang
           }
         } else {
           fromMyLanguage = false
@@ -189,28 +165,18 @@ export default class VideosFetcher {
         console.log('defaultAudioLanguage undefined!')
       }
 
-      const published =
-        video.status.privacyStatus == 'public'
-      const processed =
-        video.status.uploadStatus == 'processed'
-      const notRestricted =
-        video.contentDetails.regionRestriction === undefined
+      const published = video.status.privacyStatus == 'public'
+      const processed = video.status.uploadStatus == 'processed'
+      const notRestricted = video.contentDetails.regionRestriction === undefined
       const fresh =
         Math.floor(
           Math.abs(
-            (Date.parse(video.snippet.publishedAt) -
-              new Date().getTime()) /
+            (Date.parse(video.snippet.publishedAt) - new Date().getTime()) /
               (24 * 60 * 60 * 1000)
           )
         ) < 15
 
-      return (
-        fromMyLanguage &&
-        published &&
-        processed &&
-        notRestricted &&
-        fresh
-      )
+      return fromMyLanguage && published && processed && notRestricted && fresh
     })
 
     return filteredVideos
@@ -225,9 +191,7 @@ export default class VideosFetcher {
         if (cleanedVideos[vid.id] === undefined) {
           cleanedVideos[vid.id] = vid
         } else {
-          cleanedVideos[vid.id]['categories'].push(
-            vid.categories
-          )
+          cleanedVideos[vid.id]['categories'].push(vid.categories)
         }
       })
     })
@@ -253,8 +217,7 @@ export default class VideosFetcher {
     let hasPagination: boolean = undefined
     while (hasPagination || hasPagination == undefined) {
       let ApiObject: IVideosFromCategoryConfig = {
-        part:
-          'id,snippet,contentDetails,player,statistics,status',
+        part: 'id,snippet,contentDetails,player,statistics,status',
         regionCode: region,
         hl: lang,
         videoCategoryId: category.id,
@@ -267,9 +230,7 @@ export default class VideosFetcher {
       }
 
       try {
-        videos = await this.api.fetchVideosFromCategory(
-          ApiObject
-        )
+        videos = await this.api.fetchVideosFromCategory(ApiObject)
       } catch (e) {
         if (e.message == 'videoChartNotFound') {
           console.log('all good, continue')
@@ -303,8 +264,7 @@ export default class VideosFetcher {
       }
 
       hasPagination =
-        videos.nextPageToken !== undefined &&
-        videos.nextPageToken.length > 0
+        videos.nextPageToken !== undefined && videos.nextPageToken.length > 0
     }
 
     return allVideos

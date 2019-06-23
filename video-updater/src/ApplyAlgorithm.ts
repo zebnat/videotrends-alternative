@@ -47,16 +47,12 @@ function getVotesTrustBonus(quantity, percent) {
   if (percent > midpoint) {
     // se sumará a 50
     diff = percent - midpoint
-    trustdiff =
-      (q * diff) / minimum_votes_to_equal_abs_value +
-      0.2 * bonus
+    trustdiff = (q * diff) / minimum_votes_to_equal_abs_value + 0.2 * bonus
     real = midpoint + trustdiff
   } else if (percent < midpoint) {
     // se restara a 50
     diff = (percent - midpoint) * -1
-    trustdiff =
-      (q * diff) / minimum_votes_to_equal_abs_value -
-      0.2 * bonus
+    trustdiff = (q * diff) / minimum_votes_to_equal_abs_value - 0.2 * bonus
     real = midpoint - trustdiff
   } else {
     real = midpoint
@@ -74,8 +70,7 @@ export const applyAlgorithm = (
   videoList.forEach((r, index: number) => {
     let daysAgo = Math.floor(
       Math.abs(
-        (Date.parse(r.snippet.publishedAt) -
-          new Date().getTime()) /
+        (Date.parse(r.snippet.publishedAt) - new Date().getTime()) /
           (24 * 60 * 60 * 1000)
       )
     )
@@ -83,25 +78,18 @@ export const applyAlgorithm = (
     let likes = r.statistics.likeCount || 0
     let dislikes = 0 - r.statistics.dislikeCount || 0
     let comments = r.statistics.commentCount || 0
-    let subs =
-      parseInt(channels[r.snippet.channelId].subs) || 0
-    let viewTosubRatio =
-      subs > 0 ? (views / subs > 3 ? 3 : views / subs) : 0
+    let subs = parseInt(channels[r.snippet.channelId].subs) || 0
+    let viewTosubRatio = subs > 0 ? (views / subs > 3 ? 3 : views / subs) : 0
     let likeToDislikeRatio = getVotesTrustBonus(
       likes + r.statistics.dislikeCount,
       likes + r.statistics.dislikeCount > 0
-        ? (likes / (likes + r.statistics.dislikeCount)) *
-            100
+        ? (likes / (likes + r.statistics.dislikeCount)) * 100
         : 50
     )
     let likeToViewRatio = views > 0 ? likes / views : 0
     let spam = detectSpam(r.snippet.title)
-    let tags =
-      typeof r.snippet.tags == 'undefined'
-        ? 0
-        : r.snippet.tags.length
-    let commentsToViewRatio =
-      views > 0 ? comments / views : 0
+    let tags = typeof r.snippet.tags == 'undefined' ? 0 : r.snippet.tags.length
+    let commentsToViewRatio = views > 0 ? comments / views : 0
     let tagsPenalty = tags >= 25 ? 1 : 0
     let youtubeScore = 0 - index
 
@@ -178,9 +166,7 @@ export const applyAlgorithm = (
     let normalizedOutput = []
 
     for (let z = 0; z < arData.length; z++) {
-      normalizedOutput.push(
-        normalise(max, min, videos[z].normalize[i], 0, 1)
-      )
+      normalizedOutput.push(normalise(max, min, videos[z].normalize[i], 0, 1))
     }
 
     return normalizedOutput
@@ -190,8 +176,7 @@ export const applyAlgorithm = (
     const sumaValoresDelUnoAlDiez = 28
 
     let scoreFormula =
-      normalized[0][index] *
-        (10 / sumaValoresDelUnoAlDiez) + // likeToViewRatio [10]
+      normalized[0][index] * (10 / sumaValoresDelUnoAlDiez) + // likeToViewRatio [10]
       normalized[1][index] * (6 / sumaValoresDelUnoAlDiez) + // likeToDislikeRatio [6]
       normalized[2][index] * (1 / sumaValoresDelUnoAlDiez) + // viewTosubRatio [1]
       normalized[3][index] * (2 / sumaValoresDelUnoAlDiez) + // subs [2]
@@ -201,8 +186,7 @@ export const applyAlgorithm = (
       normalized[7][index] * (2 / sumaValoresDelUnoAlDiez) + // views [2]
       normalized[8][index] * (0 / sumaValoresDelUnoAlDiez) + // spam [0]
       normalized[10][index] * (3 / sumaValoresDelUnoAlDiez) // commentsToViewRatio [3]
-    videos[index].rating =
-      scoreFormula - scoreFormula * 0.09 * vidData.daysAgo
+    videos[index].rating = scoreFormula - scoreFormula * 0.09 * vidData.daysAgo
   })
 
   let sortScore = function compare(a, b) {

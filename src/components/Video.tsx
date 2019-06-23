@@ -18,11 +18,7 @@ const Video: React.FC<IVideo> = props => {
       <a
         className="tl"
         href={props.href}
-        title={JSON.stringify([
-          props.stats,
-          props.normalize,
-          props.categories,
-        ])}
+        title={JSON.stringify([props.stats, props.normalize, props.categories])}
       >
         {cleanTitle}
       </a>

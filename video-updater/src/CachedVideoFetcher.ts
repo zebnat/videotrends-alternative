@@ -25,14 +25,7 @@ export const CachedVideoFetcher = (
         if (error.code == 'ENOENT') {
           console.log('no cache file for videos!!!')
           //re-runs function without cache
-          resolve(
-            CachedVideoFetcher(
-              false,
-              cfg,
-              categoryPack,
-              videoFetcher
-            )
-          )
+          resolve(CachedVideoFetcher(false, cfg, categoryPack, videoFetcher))
         } else {
           reject(error)
         }

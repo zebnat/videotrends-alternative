@@ -1,8 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { ICacheFiles } from './App'
-import CategoriesFetcher, {
-  IVideoCategories,
-} from './CategoriesFetcher'
+import CategoriesFetcher, { IVideoCategories } from './CategoriesFetcher'
 
 const CachedCategoriesFetcher = async (
   cache: boolean,
@@ -20,9 +18,7 @@ const CachedCategoriesFetcher = async (
         // there is no cache file yet
         if (error.code == 'ENOENT') {
           //re-runs function without cache
-          resolve(
-            CachedCategoriesFetcher(false, cfg, catFetcher)
-          )
+          resolve(CachedCategoriesFetcher(false, cfg, catFetcher))
         } else {
           reject(error)
         }
@@ -33,10 +29,7 @@ const CachedCategoriesFetcher = async (
       categories = await catFetcher.fetchAll()
 
       try {
-        writeFileSync(
-          cfg.categories,
-          JSON.stringify(categories)
-        )
+        writeFileSync(cfg.categories, JSON.stringify(categories))
       } catch (error) {
         throw Error
       }
