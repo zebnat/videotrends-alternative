@@ -221,11 +221,9 @@ export default class VideosFetcher {
         videos = await this.api.fetchVideosFromCategory(ApiObject)
       } catch (e) {
         if (e.message == 'videoChartNotFound') {
-          console.log('all good, continue')
           videos = undefined
           break
         } else {
-          console.log('OMG THIS IS BROKEN AS FUCKKKKKK')
           throw e
         }
       }

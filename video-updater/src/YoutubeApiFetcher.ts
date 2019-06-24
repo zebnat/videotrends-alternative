@@ -181,18 +181,14 @@ export default class YoutubeApiFetcher {
     let res: AxiosResponse
     try {
       res = await axios.get(this.getVideosFromCategoryUrl(config)).catch(e => {
-        console.log('Errors happen brah')
         throw e
       })
       return res.data
     } catch (e) {
       if (e.response.status !== undefined && e.response.status == 400) {
-        console.log('Is this cached right?')
         throw new Error('videoChartNotFound')
       } else {
-        console.log('OHHHHH FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
         console.log(e)
-
         throw e
       }
     }
@@ -219,8 +215,6 @@ export default class YoutubeApiFetcher {
         throw e
       })
     } catch (e) {
-      console.log('channels kaboom!')
-      console.log(e)
       throw e
     }
 
