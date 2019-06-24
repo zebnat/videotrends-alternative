@@ -2,7 +2,7 @@
 
 ## Untagged
 
-Changes for the next tag (next: v0.3.1)
+Changes for the next tag (next: v0.5.1)
 
 ### Added/Feature
 
@@ -10,6 +10,7 @@ Changes for the next tag (next: v0.3.1)
 - Allows you to change countries
 - Added json data placeholders
 - Added a little bit of ugly styles to make it functional
+- Improved algorithm
 
 ### Fixed/Changed
 
