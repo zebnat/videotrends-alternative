@@ -131,6 +131,7 @@ function fillWithData(videos: IVideo[], data: IVideosDataGroup): void {
       details: r.contentDetails,
       spam: spam,
       normalize: pNormData,
+      visible: true,
     })
   })
 }

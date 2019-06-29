@@ -5,6 +5,7 @@ interface IThumb {
 }
 
 export interface IVideo {
+  visible: boolean
   categoryId: string
   title: string
   rating: number
