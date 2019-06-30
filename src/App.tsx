@@ -4,43 +4,21 @@ import './App.css'
 import { IVideo } from './common/types'
 import Video from './components/Video'
 import { RegionList } from './config/config'
-
-interface IBannedCategory {
-  name: string
-  banned: boolean
-}
-
-const prepareBanList = (videos: IVideo[]): IBannedCategory[] => {
-  let list: string[] = []
-
-  videos.forEach(v => {
-    v.categories.forEach(c => {
-      list.push(c)
-    })
-  })
-
-  let filteredList = list.filter((value, index, self) => {
-    return self.indexOf(value) === index
-  })
-
-  let Banlist: IBannedCategory[] = []
-  filteredList.forEach(c => {
-    Banlist.push({
-      name: c,
-      banned: false,
-    })
-  })
-
-  return Banlist
-}
+import {
+  BanCategories,
+  useBanCategories,
+  prepareBanList,
+} from './components/BanCategories'
 
 const App: React.FC = () => {
   let [videos, setVideos] = useState<Array<IVideo>>([])
   let [smallChannel, setSmallChannel] = useState<boolean>(false)
   let [country, setCountry] = useState<string>('select')
-  let [categoriesBanList, setCategoriesBanList] = useState<IBannedCategory[]>(
-    []
-  )
+  let [
+    categoriesBanList,
+    setCategoriesBanList,
+    banCategory,
+  ] = useBanCategories()
 
   var acceptedCountries: Array<string> = []
   for (let x in RegionList) {
@@ -75,7 +53,7 @@ const App: React.FC = () => {
 
   // when BanList changes
   useEffect(() => {
-    let bannedList = categoriesBanList
+    let unwantedCategories = categoriesBanList
       .filter(c => {
         return c.banned === true
       })
@@ -87,7 +65,7 @@ const App: React.FC = () => {
 
     newVideos = videos.map(vid => {
       let foundCategory: boolean = false
-      bannedList.forEach(c => {
+      unwantedCategories.forEach(c => {
         if (vid.categories.includes(c)) {
           foundCategory = true
         }
@@ -101,17 +79,6 @@ const App: React.FC = () => {
 
     setVideos(newVideos)
   }, [categoriesBanList])
-
-  const banCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
-    let nextCategoriesBanList: IBannedCategory[] = categoriesBanList.map(c => {
-      if (c.name == event.currentTarget.value) {
-        c.banned = !c.banned
-      }
-      return c
-    })
-
-    setCategoriesBanList(nextCategoriesBanList)
-  }
 
   const selectChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target !== null) {
@@ -170,18 +137,7 @@ const App: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="banList">
-          {categoriesBanList.map((c, i) => (
-            <button
-              key={i}
-              className={c.banned ? 'banned' : ''}
-              value={c.name}
-              onClick={banCategory}
-            >
-              {c.name}
-            </button>
-          ))}
-        </div>
+        <BanCategories categories={categoriesBanList} onClick={banCategory} />
       </div>
       {videoBlock}
     </div>
