@@ -8,3 +8,4 @@ A React SPA with a list of trending videos using custom algorithm for sorting th
 - Select a country and view their video trends
 - Option to discover small channels
 - Updates once a day
+- Ignore categories you don't like
