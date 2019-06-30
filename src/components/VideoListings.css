@@ -1,0 +1,35 @@
+input {
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.video-list {
+  /*list-style-type: none;*/
+  margin: 0;
+  padding: 0;
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trend-video {
+  flex-direction: row;
+  margin: 10px;
+}
+
+.trend-video a,
+.trend-video .title {
+  display: block;
+  width: 320px;
+  color: white;
+  text-decoration: none;
+}
+
+.trend-video a:hover {
+  text-decoration: underline;
+}

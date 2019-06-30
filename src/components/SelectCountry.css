@@ -1,0 +1,18 @@
+@media only screen and (max-width: 386px) {
+  .selectBlock {
+    float: left;
+  }
+}
+
+@media only screen and (min-width: 387px) and (max-width: 599px) {
+  .selectBlock {
+    float: left;
+  }
+}
+
+.selectBlock {
+  float: right;
+}
+.selectBlock select {
+  font-size: 120%;
+}

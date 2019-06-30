@@ -1,0 +1,16 @@
+.banList {
+  padding: 10px;
+  background: gray;
+  text-align: center;
+}
+
+.banList .banned {
+  text-decoration: line-through;
+}
+.banList button {
+  background: white;
+  border: 2px solid black;
+  margin: 5px;
+  font-size: 110%;
+  padding: 5px 10px;
+}

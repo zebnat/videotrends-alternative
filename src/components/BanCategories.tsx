@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { IVideo } from '../common/types'
+import './BanCategories.css'
 
 export interface IBannedCategory {
   name: string
@@ -12,7 +13,7 @@ interface IPropsBanCategories {
 }
 
 // Component
-export const BanCategories = (props: IPropsBanCategories) => {
+export const BanCategories = (props: IPropsBanCategories): JSX.Element => {
   let { categories, onClick } = props
   return (
     <div className="banList">
@@ -42,7 +43,7 @@ export const useBanCategories = (): [
 
   const banCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     let nextCategoriesBanList: IBannedCategory[] = categoriesBanList.map(c => {
-      if (c.name == event.currentTarget.value) {
+      if (c.name === event.currentTarget.value) {
         c.banned = !c.banned
       }
       return c
@@ -54,6 +55,10 @@ export const useBanCategories = (): [
   return [categoriesBanList, setCategoriesBanList, banCategory]
 }
 
+/**
+ * takes a list of videos and returns a list of unique categories
+ * @param videos
+ */
 export const prepareBanList = (videos: IVideo[]): IBannedCategory[] => {
   let list: string[] = []
 
