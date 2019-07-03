@@ -23,6 +23,7 @@ export interface IVideo {
   lang: string
   status: any
   categories: string[]
+  lazyIndex?: number
 }
 
 export interface ILocale {

@@ -8,11 +8,14 @@ import {
   useBanCategories,
 } from './BanCategories'
 import Video from './Video'
-import './VideoListings.css'
+import './VideoListings.scss'
+import Switch from 'react-switch'
 
 export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
   let [videos, setVideos] = useState<IVideo[]>([])
   let [smallChannel, setSmallChannel] = useState<boolean>(false)
+  let [loading, setLoading] = useState<boolean>(true)
+  let [filtersOpen, setFiltersOpen] = useState<boolean>(false)
   let [
     categoriesBanList,
     setCategoriesBanList,
@@ -24,12 +27,17 @@ export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
   }
 
   const fetchVideoDataset = async (country: string) => {
+    setLoading(true)
+    setFiltersOpen(false)
+    setSmallChannel(false)
+
     let res = await axios.get('../data/dataset-' + country + '.json')
 
     let videos = res.data
     let categories = prepareBanList(videos)
     setVideos(videos)
     setCategoriesBanList(categories)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -53,7 +61,7 @@ export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
       <ol className="video-list">
         {videoList.map((video, index) => {
           if (index < 60 && video.visible) {
-            return <Video key={video.videoId} {...video} />
+            return <Video key={video.videoId} lazyIndex={index} {...video} />
           } else {
             return null
           }
@@ -62,14 +70,48 @@ export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
     )
   }
 
-  return (
-    <div>
-      <label>Canales Pequeños</label>
-      <input type="checkbox" onClick={toogleSmall} />
-      <BanCategories categories={categoriesBanList} onClick={banCategory} />
-      {videoBlock}
-    </div>
+  const stillLoading = (
+    <div className="container has-text-centered	">Loading Videos ...</div>
   )
+
+  const loaded = () => {
+    const openFilter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setFiltersOpen(true)
+    }
+
+    const OpenFilters = () => {
+      return (
+        <section className="section container">
+          <BanCategories categories={categoriesBanList} onClick={banCategory} />
+          <div className="is-pulled-left">
+            <Switch onChange={toogleSmall} checked={smallChannel} />
+          </div>
+          <div className="is-pulled-left" style={{ margin: '5px 15px' }}>
+            Discover Small Channels
+          </div>
+        </section>
+      )
+    }
+
+    const ClosedFilters = () => {
+      return (
+        <button className="button is-primary" onClick={openFilter}>
+          Manage filters
+        </button>
+      )
+    }
+
+    return (
+      <>
+        <div className="has-text-centered">
+          {filtersOpen ? OpenFilters() : ClosedFilters()}
+        </div>
+        {videoBlock}
+      </>
+    )
+  }
+
+  return loading ? stillLoading : loaded()
 }
 
 interface IVideoListingsProps {

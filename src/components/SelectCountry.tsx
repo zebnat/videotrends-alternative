@@ -1,6 +1,6 @@
 import React from 'react'
 import { ILocale } from '../common/types'
-import './SelectCountry.css'
+import './SelectCountry.scss'
 
 interface ISelectCountryProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -10,11 +10,10 @@ interface ISelectCountryProps {
 
 export const SelectCountry = (props: ISelectCountryProps): JSX.Element => {
   return (
-    <div className="selectBlock">
-      <label>Country: </label>
+    <div className="select is-medium is-primary">
       <select onChange={props.onChange} value={props.country}>
         <option disabled value="">
-          -- Select your country --
+          -- Select --
         </option>
         {props.regionList.map((e, i) => (
           <option key={i} value={e.language + '-' + e.country}>

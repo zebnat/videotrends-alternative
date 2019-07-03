@@ -14,22 +14,22 @@ export const RegionList: ILocale[] = [
   {
     language: 'fr',
     country: 'fr',
-    screenName: 'La France',
+    screenName: 'France',
   },
   {
     language: 'de',
     country: 'de',
-    screenName: ' Deutschland (Germany)',
+    screenName: 'Germany',
   },
   {
     language: 'nl',
     country: 'nl',
-    screenName: 'Nederland (Netherlands)',
+    screenName: 'Netherlands',
   },
   {
     language: 'it',
     country: 'it',
-    screenName: 'Italia (Italy)',
+    screenName: 'Italia',
   },
   {
     language: 'en',
@@ -37,39 +37,38 @@ export const RegionList: ILocale[] = [
     screenName: 'United Kingdom',
   },
   {
-    language: 'es',
-    country: 'ar',
-    screenName: 'Argentina',
+    language: 'ru',
+    country: 'ru',
+    screenName: 'Russia',
   },
   {
-    language: 'es',
-    country: 'mx',
-    screenName: 'Mexico',
+    language: 'pt',
+    country: 'br',
+    screenName: 'Brazil',
   },
-  { language: 'es', country: 'cl', screenName: 'Chile' },
   {
     language: 'zh',
     country: 'hk',
-    screenName: '香港粵語 (Hong Kong)',
+    screenName: '香港粵語',
   },
   {
     language: 'ar',
     country: 'qa',
-    screenName: 'قطر (Qatar)',
+    screenName: 'قطر',
   },
   {
     language: 'ar',
     country: 'kw',
-    screenName: 'الكويت (Kuwait)',
+    screenName: 'الكويت',
   },
   {
     language: 'ja',
     country: 'jp',
-    screenName: '日本 (Japan)',
+    screenName: '日本',
   },
   {
     language: 'ko',
     country: 'kr',
-    screenName: '대한민국 (S.Korea)',
+    screenName: '대한민국',
   },
 ]

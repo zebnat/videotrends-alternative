@@ -1,0 +1,25 @@
+.video-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.video-list li {
+  flex-direction: row;
+  margin: 10px;
+}
+
+.video-list li a {
+  display: block;
+  width: 320px;
+  text-decoration: none;
+}
+
+.video-list img {
+  background: gray;
+  width: 320px;
+  height: 180px;
+}
