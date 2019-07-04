@@ -1,3 +1,5 @@
+@import '../master';
+
 .video-list {
   list-style-type: none;
   margin: 0;
@@ -19,7 +21,7 @@
 }
 
 .video-list img {
-  background: gray;
+  background: $grey;
   width: 320px;
   height: 180px;
 }
