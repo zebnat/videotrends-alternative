@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { IVideo } from '../common/types'
+import { Video as VideoType } from '../common/types'
 import {
   BanCategories,
-  IBannedCategory,
+  BannedCategory,
   prepareBanList,
   useBanCategories,
 } from './BanCategories'
@@ -11,8 +11,8 @@ import Video from './Video'
 import './VideoListings.scss'
 import Switch from 'react-switch'
 
-export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
-  let [videos, setVideos] = useState<IVideo[]>([])
+export const VideoListings = (props: VideoListingsProps): JSX.Element => {
+  let [videos, setVideos] = useState<VideoType[]>([])
   let [smallChannel, setSmallChannel] = useState<boolean>(false)
   let [loading, setLoading] = useState<boolean>(true)
   let [filtersOpen, setFiltersOpen] = useState<boolean>(false)
@@ -114,7 +114,7 @@ export const VideoListings = (props: IVideoListingsProps): JSX.Element => {
   return loading ? stillLoading : loaded()
 }
 
-interface IVideoListingsProps {
+type VideoListingsProps = {
   country: string
 }
 
@@ -124,9 +124,9 @@ interface IVideoListingsProps {
  * @param unwantedCategories
  */
 const updateCategories = (
-  videos: IVideo[],
-  unwantedCategories: IBannedCategory[]
-): IVideo[] => {
+  videos: VideoType[],
+  unwantedCategories: BannedCategory[]
+): VideoType[] => {
   let simpleCategoryList: string[] = unwantedCategories
     .filter(c => {
       return c.banned === true

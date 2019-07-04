@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from 'fs'
-import { ICacheFiles } from './App'
+import { CacheFiles } from './App'
 import CategoriesFetcher, { IVideoCategories } from './CategoriesFetcher'
 
 const CachedCategoriesFetcher = async (
   cache: boolean,
-  cfg: ICacheFiles,
+  cfg: CacheFiles,
   catFetcher: CategoriesFetcher
 ): Promise<IVideoCategories[]> => {
   return new Promise(async (resolve, reject) => {

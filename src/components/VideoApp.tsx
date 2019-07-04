@@ -4,13 +4,13 @@ import { RegionList } from '../config/config'
 import { VideoListings } from './VideoListings'
 import { prepareRegionList } from '../utils'
 
-interface IVideoAppProps {
+type VideoAppProps = {
   country: string
 }
 
 const regions = prepareRegionList(RegionList)
 
-export const VideoApp: React.FC<IVideoAppProps> = props => {
+export const VideoApp: React.FC<VideoAppProps> = props => {
   let [country, setCountry] = useState<string>('')
 
   const allowedCountry = (locale: string) => {

@@ -1,10 +1,10 @@
-interface IThumb {
+type Thumb = {
   url: string
   width: number
   height: number
 }
 
-export interface IVideo {
+export type Video = {
   visible: boolean
   categoryId: string
   title: string
@@ -15,7 +15,7 @@ export interface IVideo {
   subs: number
   spam: number
   normalize: number[]
-  thumb: IThumb
+  thumb: Thumb
   href: string
   videoId: string
   stats: any
@@ -26,7 +26,7 @@ export interface IVideo {
   lazyIndex?: number
 }
 
-export interface ILocale {
+export type Locale = {
   language: string
   country: string
   screenName: string

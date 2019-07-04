@@ -1,4 +1,4 @@
-import { ILocale } from '../../src/common/types'
+import { Locale } from '../../src/common/types'
 import YoutubeApiFetcher, {
   IVideoCategoriesApiResponse,
 } from './YoutubeApiFetcher'
@@ -9,10 +9,10 @@ export interface IVideoCategories extends IVideoCategoriesApiResponse {
 }
 
 export default class CategoriesFetcher {
-  regionList: ILocale[]
+  regionList: Locale[]
   api: YoutubeApiFetcher
 
-  constructor(api: YoutubeApiFetcher, regionList: ILocale[]) {
+  constructor(api: YoutubeApiFetcher, regionList: Locale[]) {
     this.regionList = regionList
     this.api = api
   }
@@ -20,7 +20,7 @@ export default class CategoriesFetcher {
   public async fetchAll(): Promise<IVideoCategories[]> {
     let p: Promise<IVideoCategories>[] = []
 
-    this.regionList.forEach((l: ILocale) => {
+    this.regionList.forEach((l: Locale) => {
       p.push(this.fetchOne(l))
     })
 
@@ -35,7 +35,7 @@ export default class CategoriesFetcher {
     return data
   }
 
-  private fetchOne(l: ILocale): Promise<IVideoCategories> {
+  private fetchOne(l: Locale): Promise<IVideoCategories> {
     return new Promise(async (resolve, reject) => {
       let list: IVideoCategories
 

@@ -1,6 +1,6 @@
-import { ILocale } from '../common/types'
+import { Locale } from '../common/types'
 
-export const RegionList: ILocale[] = [
+export const RegionList: Locale[] = [
   {
     language: 'es',
     country: 'es',

@@ -1,5 +1,5 @@
-import { IVideo } from '../../src/common/types'
-import { IVideoResource } from './YoutubeApiFetcher'
+import { Video } from '../../src/common/types'
+import { VideoResource } from './YoutubeApiFetcher'
 
 /** Represents data normalization list for IVideo normalize */
 enum NormSts {
@@ -17,8 +17,8 @@ enum NormSts {
   youtubeScore,
 }
 
-interface IVideosDataGroup {
-  videos: IVideoResource[]
+type VideosDataGroup = {
+  videos: VideoResource[]
   channels: object
 }
 
@@ -72,7 +72,7 @@ function detectSpam(str: string): number {
 }
 
 /** Fills videos with prepared data*/
-function fillWithData(videos: IVideo[], data: IVideosDataGroup): void {
+function fillWithData(videos: Video[], data: VideosDataGroup): void {
   data.videos.forEach((r, index) => {
     let daysAgo = Math.floor(
       Math.abs(
@@ -140,7 +140,7 @@ function fillWithData(videos: IVideo[], data: IVideosDataGroup): void {
  * @param nData - Normalized data from IVideo normalize
  * @param videos - Complete list of videos
  */
-function applyRankingsToVideos(videos: IVideo[], nData: number[][]): void {
+function applyRankingsToVideos(videos: Video[], nData: number[][]): void {
   videos.forEach((vidData, i) => {
     let importanceRating: number[] = []
     // rate from 1 to 10
@@ -184,7 +184,7 @@ function applyRankingsToVideos(videos: IVideo[], nData: number[][]): void {
         : scoreFormula - scoreFormula * 0.08 * vidData.daysAgo
   })
 
-  let sortScore = function compare(a: IVideo, b: IVideo) {
+  let sortScore = function compare(a: Video, b: Video) {
     if (a.rating < b.rating) return 1
     if (a.rating > b.rating) return -1
     return 0
@@ -197,7 +197,7 @@ function applyRankingsToVideos(videos: IVideo[], nData: number[][]): void {
  * @param videos - List of videos
  * @return A list with lists of normalized data
  */
-function normalizeVideos(videos: IVideo[]) {
+function normalizeVideos(videos: Video[]) {
   let len = videos.length
   let toNormalise: number[][] = []
   for (let i in NormSts) {
@@ -230,10 +230,10 @@ function normalizeVideos(videos: IVideo[]) {
  * @param channels - A object with channels information
  */
 export const applyAlgorithm = (
-  videoList: IVideoResource[],
+  videoList: VideoResource[],
   channels: object
-): IVideo[] => {
-  let videos: IVideo[] = []
+): Video[] => {
+  let videos: Video[] = []
 
   // prepare data and fill videos
   fillWithData(videos, { videos: videoList, channels: channels })

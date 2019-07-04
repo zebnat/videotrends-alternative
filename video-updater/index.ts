@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 import { RegionList } from '../src/config/config'
-import { App, IConfig } from './src/App'
+import { App, Config } from './src/App'
 
 dotenv.config()
 
@@ -10,7 +10,7 @@ if (process.env.CACHE === 'NO') {
   cache = false
 }
 
-const config: IConfig = {
+const config: Config = {
   apikey: process.env.YOUTUBEAPI,
   cache: cache,
   regionList: RegionList,

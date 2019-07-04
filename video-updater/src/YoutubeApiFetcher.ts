@@ -10,47 +10,47 @@ export interface IVideosFromCategoryConfig extends IVideoCategoriesConfig {
   videoCategoryId: string
   pageToken?: string
 }
-export interface IVideoList {
-  items: IVideoResource[]
+export type VideoList = {
+  items: VideoResource[]
   kind?: string
   etag?: string
   nextPageToken?: string
   pageInfo?: object
 }
-interface IPageInfo {
+type PageInfo = {
   totalResults: number
   resultsPerPage: number
 }
 
-interface ISnippet {
+type Snippet = {
   channelId: string
   title: string
   assignable: boolean
 }
 
-export interface IVideoCategoryResource {
+export type VideoCategoryResource = {
   kind: string
   etag: string
   id: string
-  snippet: ISnippet
+  snippet: Snippet
 }
 
-interface IThumbnailsData {
+type ThumbnailsData = {
   url: string
   width: number
   height: number
 }
 
-interface IThumbnails {
-  medium: IThumbnailsData
+type Thumbnails = {
+  medium: ThumbnailsData
 }
 
-interface IVideoSnippet {
+type VideoSnippet = {
   publishedAt: string
   channelId: string
   title: string
   description: string
-  thumbnails: IThumbnails
+  thumbnails: Thumbnails
   channelTitle: string
   tags: [string]
   categoryId: string
@@ -59,7 +59,7 @@ interface IVideoSnippet {
   localized: object
   defaultAudioLanguage: string
 }
-interface IVideoStatus {
+type VideoStatus = {
   privacyStatus: string
   uploadStatus: string
   failureReason: string
@@ -69,7 +69,7 @@ interface IVideoStatus {
   embeddable: boolean
   publicStatsViewable: boolean
 }
-interface IVideoContentDetails {
+type VideoContentDetails = {
   regionRestriction: object
   duration: string
   dimension: string
@@ -81,21 +81,21 @@ interface IVideoContentDetails {
   hasCustomThumbnail: boolean
 }
 
-interface IVideoStatistics {
+type VideoStatistics = {
   viewCount: number
   likeCount: number
   dislikeCount: number
   favoriteCount: number
   commentCount: number
 }
-export interface IVideoResource {
+export type VideoResource = {
   kind: string
   etag: string
   id: string
-  snippet: IVideoSnippet
-  contentDetails: IVideoContentDetails
-  status: IVideoStatus
-  statistics: IVideoStatistics
+  snippet: VideoSnippet
+  contentDetails: VideoContentDetails
+  status: VideoStatus
+  statistics: VideoStatistics
   player: object
   categories?: [string]
 }
@@ -104,29 +104,29 @@ export interface IVideoCategoriesApiResponse {
   etag: string
   nextPageToken: string
   prevPageToken: string
-  pageInfo: IPageInfo
-  items: IVideoCategoryResource[]
+  pageInfo: PageInfo
+  items: VideoCategoryResource[]
 }
 
-interface IChannelStatistics {
+type ChannelStatistics = {
   subscriberCount: number
   viewCount: number
 }
 
-interface IChannelSnippet {
+type ChannelSnippet = {
   title: string
 }
 
-export interface IChannelsResource {
+export type ChannelsResource = {
   id: string
-  snippet: IChannelSnippet
-  statistics: IChannelStatistics
+  snippet: ChannelSnippet
+  statistics: ChannelStatistics
 }
 
-export interface IChannelsApiResponse {
+export type ChannelsApiResponse = {
   kind: string
   etag: string
-  items: IChannelsResource[]
+  items: ChannelsResource[]
 }
 
 export default class YoutubeApiFetcher {
@@ -177,7 +177,7 @@ export default class YoutubeApiFetcher {
 
   public async fetchVideosFromCategory(
     config: IVideosFromCategoryConfig
-  ): Promise<IVideoList> {
+  ): Promise<VideoList> {
     let res: AxiosResponse
     try {
       res = await axios.get(this.getVideosFromCategoryUrl(config)).catch(e => {
@@ -208,7 +208,7 @@ export default class YoutubeApiFetcher {
 
   public async fetchChannelsFromIds(
     channelIds: [string]
-  ): Promise<IChannelsApiResponse> {
+  ): Promise<ChannelsApiResponse> {
     let res: AxiosResponse
     try {
       res = await axios.get(this.getChannelsFromIdUrl(channelIds)).catch(e => {

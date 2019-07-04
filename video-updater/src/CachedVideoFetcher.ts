@@ -1,17 +1,17 @@
 import { readFileSync, writeFileSync } from 'fs'
-import { ICacheFiles } from './App'
+import { CacheFiles } from './App'
 import { IVideoCategories } from './CategoriesFetcher'
 import VideosFetcher from './VideosFetcher'
-import { IVideoResource } from './YoutubeApiFetcher'
+import { VideoResource } from './YoutubeApiFetcher'
 
 export const CachedVideoFetcher = (
   cache: boolean,
-  cfg: ICacheFiles,
+  cfg: CacheFiles,
   categoryPack: IVideoCategories[],
   videoFetcher: VideosFetcher
-): Promise<[IVideoResource[], object][]> => {
+): Promise<[VideoResource[], object][]> => {
   return new Promise(async (resolve, reject) => {
-    let videos: [IVideoResource[], object][]
+    let videos: [VideoResource[], object][]
 
     if (cache) {
       try {

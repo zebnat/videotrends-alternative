@@ -2,11 +2,11 @@ import React from 'react'
 import { MainTitle } from '../MainTitle'
 import { VideoApp } from '../VideoApp'
 
-interface IHomePageProps {
+type HomePageProps = {
   defaultCountry: string
 }
 
-export const HomePage: React.FC<IHomePageProps> = props => {
+export const HomePage: React.FC<HomePageProps> = props => {
   return (
     <>
       <MainTitle />

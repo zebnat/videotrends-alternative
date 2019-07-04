@@ -1,10 +1,10 @@
 import { IVideoCategories } from './CategoriesFetcher'
 import { splitArrayInChunks } from './Utils'
 import YoutubeApiFetcher, {
-  IChannelsApiResponse,
-  IVideoCategoryResource,
-  IVideoList,
-  IVideoResource,
+  ChannelsApiResponse,
+  VideoCategoryResource,
+  VideoList,
+  VideoResource,
   IVideosFromCategoryConfig,
 } from './YoutubeApiFetcher'
 
@@ -16,8 +16,8 @@ export default class VideosFetcher {
 
   fetchVideosFromAllCountryCategories(
     categoriesList: IVideoCategories[]
-  ): Promise<[IVideoResource[], object][]> {
-    let promiseQueue: Promise<[IVideoResource[], object]>[] = []
+  ): Promise<[VideoResource[], object][]> {
+    let promiseQueue: Promise<[VideoResource[], object]>[] = []
     categoriesList.forEach(countrySpecificCategories => {
       promiseQueue.push(
         this.fetchVideosFromCategories(countrySpecificCategories)
@@ -33,8 +33,8 @@ export default class VideosFetcher {
 
   private async fetchVideosFromCategories(
     categories: IVideoCategories
-  ): Promise<[IVideoResource[], object]> {
-    let promiseQueue: Promise<IVideoResource[]>[] = []
+  ): Promise<[VideoResource[], object]> {
+    let promiseQueue: Promise<VideoResource[]>[] = []
 
     categories.items.forEach(category => {
       promiseQueue.push(
@@ -46,9 +46,9 @@ export default class VideosFetcher {
       )
     })
 
-    let videos: IVideoResource[][] = await Promise.all(promiseQueue)
+    let videos: VideoResource[][] = await Promise.all(promiseQueue)
 
-    let filteredVideos: IVideoResource[] = this.processAndFilterVideos(
+    let filteredVideos: VideoResource[] = this.processAndFilterVideos(
       videos,
       categories.hl,
       categories.regionCode
@@ -60,7 +60,7 @@ export default class VideosFetcher {
   }
 
   private async fetchChannelsFromVideos(
-    videos: IVideoResource[]
+    videos: VideoResource[]
   ): Promise<object> {
     try {
       let channelsIndex: object = {}
@@ -70,7 +70,7 @@ export default class VideosFetcher {
 
       let channelgroups = splitArrayInChunks(Object.keys(channelsIndex), 10)
 
-      let channelApiCalls: Promise<IChannelsApiResponse>[] = []
+      let channelApiCalls: Promise<ChannelsApiResponse>[] = []
       channelgroups.forEach(group => {
         channelApiCalls.push(this.api.fetchChannelsFromIds(group))
       })
@@ -97,10 +97,10 @@ export default class VideosFetcher {
   }
 
   private processAndFilterVideos(
-    listOfVideosPerCategory: IVideoResource[][],
+    listOfVideosPerCategory: VideoResource[][],
     lang: string,
     region: string
-  ): IVideoResource[] {
+  ): VideoResource[] {
     let videos = this.mergeVideosAndTheirCategories(listOfVideosPerCategory)
     let allowLangs = new RegExp(
       '/' + lang + '-([a-zA-Z0-9].+|[a-zA-Z0-9])$/',
@@ -167,8 +167,8 @@ export default class VideosFetcher {
   }
 
   private mergeVideosAndTheirCategories(
-    listOfVideosPerCategory: IVideoResource[][]
-  ): IVideoResource[] {
+    listOfVideosPerCategory: VideoResource[][]
+  ): VideoResource[] {
     let cleanedVideos = {}
     listOfVideosPerCategory.forEach(list => {
       list.forEach(vid => {
@@ -184,7 +184,7 @@ export default class VideosFetcher {
       })
     })
 
-    let mergedVideos: IVideoResource[] = []
+    let mergedVideos: VideoResource[] = []
     for (let prop in cleanedVideos) {
       if (Object.hasOwnProperty.call(cleanedVideos, prop)) {
         mergedVideos.push(cleanedVideos[prop])
@@ -196,11 +196,11 @@ export default class VideosFetcher {
   private async fetchVideosFromCategory(
     region: string,
     lang: string,
-    category: IVideoCategoryResource
-  ): Promise<IVideoResource[]> {
-    let allVideos: IVideoResource[] = []
+    category: VideoCategoryResource
+  ): Promise<VideoResource[]> {
+    let allVideos: VideoResource[] = []
 
-    let videos: IVideoList
+    let videos: VideoList
 
     let hasPagination: boolean = undefined
     while (hasPagination || hasPagination == undefined) {

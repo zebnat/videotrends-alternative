@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { IVideo } from '../common/types'
+import { Video } from '../common/types'
 import './BanCategories.scss'
 
-export interface IBannedCategory {
+export type BannedCategory = {
   name: string
   banned: boolean
 }
 
-interface IPropsBanCategories {
-  categories: IBannedCategory[]
+type BanCategoriesProps = {
+  categories: BannedCategory[]
   onClick(event: React.MouseEvent<HTMLButtonElement>): void
 }
 
 // Component
-export const BanCategories = (props: IPropsBanCategories): JSX.Element => {
+export const BanCategories = (props: BanCategoriesProps): JSX.Element => {
   let { categories, onClick } = props
   return (
     <div className="tags">
@@ -32,16 +32,14 @@ export const BanCategories = (props: IPropsBanCategories): JSX.Element => {
 
 // Custom Hook
 export const useBanCategories = (): [
-  IBannedCategory[],
-  React.Dispatch<React.SetStateAction<IBannedCategory[]>>,
+  BannedCategory[],
+  React.Dispatch<React.SetStateAction<BannedCategory[]>>,
   (event: React.MouseEvent<HTMLButtonElement>) => void
 ] => {
-  let [categoriesBanList, setCategoriesBanList] = useState<IBannedCategory[]>(
-    []
-  )
+  let [categoriesBanList, setCategoriesBanList] = useState<BannedCategory[]>([])
 
   const banCategory = (event: React.MouseEvent<HTMLSpanElement>) => {
-    let nextCategoriesBanList: IBannedCategory[] = categoriesBanList.map(c => {
+    let nextCategoriesBanList: BannedCategory[] = categoriesBanList.map(c => {
       if (c.name === event.currentTarget.innerText) {
         c.banned = !c.banned
       }
@@ -58,7 +56,7 @@ export const useBanCategories = (): [
  * takes a list of videos and returns a list of unique categories
  * @param videos
  */
-export const prepareBanList = (videos: IVideo[]): IBannedCategory[] => {
+export const prepareBanList = (videos: Video[]): BannedCategory[] => {
   let list: string[] = []
 
   videos.forEach(v => {
@@ -71,7 +69,7 @@ export const prepareBanList = (videos: IVideo[]): IBannedCategory[] => {
     return self.indexOf(value) === index
   })
 
-  let Banlist: IBannedCategory[] = []
+  let Banlist: BannedCategory[] = []
   filteredList.forEach(c => {
     Banlist.push({
       name: c,

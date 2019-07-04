@@ -1,13 +1,13 @@
 import React from 'react'
-import { ILocale } from '../common/types'
+import { Locale } from '../common/types'
 
-interface ISelectCountryProps {
+type SelectCountryProps = {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  regionList: ILocale[]
+  regionList: Locale[]
   country: string
 }
 
-export const SelectCountry = (props: ISelectCountryProps): JSX.Element => {
+export const SelectCountry = (props: SelectCountryProps): JSX.Element => {
   return (
     <section className="section is-small has-text-centered">
       <div className="select is-medium is-primary">

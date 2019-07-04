@@ -1,30 +1,30 @@
 import { writeFileSync } from 'fs'
 import { resolve } from 'path'
-import { ILocale, IVideo } from '../../src/common/types'
+import { Locale } from '../../src/common/types'
 import { applyAlgorithm } from './ApplyAlgorithm'
 import CachedCategoriesFetcher from './CachedCategoriesFetcher'
 import CachedVideoFetcher from './CachedVideoFetcher'
 import CategoriesFetcher from './CategoriesFetcher'
 import VideosFetcher from './VideosFetcher'
-import YoutubeApiFetcher, { IVideoResource } from './YoutubeApiFetcher'
+import YoutubeApiFetcher, { VideoResource } from './YoutubeApiFetcher'
 
-export interface ICacheFiles {
+export type CacheFiles = {
   categories: string
   videos: string
 }
-export interface IConfig {
+export type Config = {
   apikey: string
   cache: boolean
-  regionList: ILocale[]
-  cacheFiles: ICacheFiles
+  regionList: Locale[]
+  cacheFiles: CacheFiles
 }
 
 export class App {
-  config: IConfig
+  config: Config
   catFetcher: CategoriesFetcher
   videoFetcher: VideosFetcher
 
-  constructor(config: IConfig) {
+  constructor(config: Config) {
     this.config = config
     let api: YoutubeApiFetcher = new YoutubeApiFetcher(config.apikey)
     this.catFetcher = new CategoriesFetcher(api, config.regionList)
@@ -57,7 +57,7 @@ export class App {
   }
 
   private saveDataToJsonLocalizedFiles(
-    videoDataPack: [IVideoResource[], object][]
+    videoDataPack: [VideoResource[], object][]
   ) {
     this.config.regionList.forEach((element, index) => {
       let videos = applyAlgorithm(

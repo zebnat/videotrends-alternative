@@ -1,8 +1,8 @@
 import React from 'react'
-import { IVideo } from '../common/types'
+import { Video as VideoType } from '../common/types'
 import LazyLoad from 'react-lazyload'
 
-interface VideoImage {
+type VideoImage = {
   lazyIndex?: number
   url: string
   width: number
@@ -10,14 +10,14 @@ interface VideoImage {
   alt: string
 }
 
-const Video: React.FC<IVideo> = props => {
+const Video: React.FC<VideoType> = props => {
   let cleanTitle: string =
     props.title.length > 60
       ? props.title.substring(0, 60) + ' ...'
       : props.title
 
   const ImageLazy: React.FC<VideoImage> = props => {
-    if (props.lazyIndex == undefined || props.lazyIndex <= 7) {
+    if (props.lazyIndex === undefined || props.lazyIndex <= 7) {
       return (
         <img
           src={props.url}
