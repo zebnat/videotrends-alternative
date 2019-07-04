@@ -169,8 +169,7 @@ function applyRankingsToVideos(videos: IVideo[], nData: number[][]): void {
       if (!isNaN(Number(z))) {
         logNormalized[z] = nData[z][i]
         scoreFormula =
-          scoreFormula *
-          (1 + nData[z][i] * (importanceRating[z] / totalImportance))
+          scoreFormula + nData[z][i] * (importanceRating[z] / totalImportance)
       }
     }
 
