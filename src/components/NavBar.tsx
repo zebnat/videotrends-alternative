@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import logo from '../img/ytrends-logo.png'
+import { Link } from 'react-router-dom'
 
 export const NavBar = () => {
   let [nav, setNav] = useState(false)
 
   const toggleMenu = () => {
     setNav(!nav)
+  }
+
+  const navigatedTo = () => {
+    setNav(false)
   }
 
   return (
@@ -15,9 +20,9 @@ export const NavBar = () => {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a href="/" className="navbar-item">
+        <Link className="navbar-item" to={'/'}>
           <img src={logo} alt="Ytrends" />
-        </a>
+        </Link>
 
         <a
           role="button"
@@ -40,9 +45,15 @@ export const NavBar = () => {
         className={'navbar-menu' + (nav ? 'is-active' : '')}
       >
         <div className="navbar-start">
-          <a className="navbar-item">Home</a>
-          <a className="navbar-item">What's this?</a>
-          <a className="navbar-item">Contact</a>
+          <Link className="navbar-item" to={'/'} onClick={navigatedTo}>
+            Home
+          </Link>
+          <Link className="navbar-item" to={'/about'} onClick={navigatedTo}>
+            What's this?
+          </Link>
+          <Link className="navbar-item" to={'/contact'} onClick={navigatedTo}>
+            Contact
+          </Link>
         </div>
       </div>
     </nav>
