@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const MainTitle = () => {
   return (
@@ -8,7 +9,8 @@ export const MainTitle = () => {
         <span className="green">trends</span>
       </h1>
       <div className="subtitle is-size-4">
-        An alternative list of trending videos <a>Learn more</a>
+        An alternative list of trending videos{' '}
+        <Link to={'/about'}>Learn more</Link>
       </div>
     </section>
   )

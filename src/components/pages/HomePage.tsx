@@ -7,7 +7,6 @@ type HomePageProps = {
 }
 
 export const HomePage: React.FC<HomePageProps> = props => {
-  console.log(props)
   return (
     <>
       <MainTitle />
