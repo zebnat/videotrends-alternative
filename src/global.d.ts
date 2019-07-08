@@ -1,5 +1,5 @@
 interface Window {
-  db: any
+  ga: any
 }
 
-var window: Window = window || { db: {} }
+var window: Window = window || { ga: {} }

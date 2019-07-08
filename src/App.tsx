@@ -27,6 +27,24 @@ const App: React.FC = (): JSX.Element => {
     }
   }, [])
 
+  const handleAnalytics = () => {
+    if (!allowAnalytics) {
+      setAllowAnalytics(true)
+      import('autotrack/lib/plugins/url-change-tracker')
+        .then(() => {
+          if (!analyticsInitialized) {
+            window.ga('create', 'UA-143424625-1', 'auto')
+            window.ga('require', 'urlChangeTracker')
+            window.ga('send', 'pageview')
+            setAnalyticsInitialized(true)
+          }
+        })
+        .catch(e => {
+          setAnalyticsInitialized(false)
+        })
+    }
+  }
+
   return (
     <>
       <Router>
@@ -63,7 +81,7 @@ const App: React.FC = (): JSX.Element => {
           },
         }}
         onAccept={() => setAllowCookies(true)}
-        onAcceptStatistics={() => setAllowAnalytics(true)}
+        onAcceptStatistics={handleAnalytics}
       />
     </>
   )
