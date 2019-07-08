@@ -74,3 +74,9 @@ $navbar-dropdown-item-active-background-color: $background !default;
 $navbar-divider-background-color: $background !default;
 
 $footer-background-color: $grey-darker;
+
+$label-color: $white-ter;
+
+.checkbox:hover {
+  color: $white-ter;
+}

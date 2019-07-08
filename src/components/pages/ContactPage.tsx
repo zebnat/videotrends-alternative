@@ -1,32 +1,33 @@
 import React from 'react'
-import firebase from 'firebase'
+import { GlobalConsumer } from '../../GlobalContext'
+import { ContactForm } from '../ContactForm'
 
 export const ContactPage = () => {
-  const testFirebase = () => {
-    let now = firebase.firestore.Timestamp.fromDate(new Date())
-
-    window.db
-      .collection('contacts')
-      .add({
-        email: 'example@example.com',
-        category: 'other',
-        message: 'Hey!!',
-        timestamp: now.toDate(),
-      })
-      .then(function(docRef: any) {
-        console.log('Document written with ID: ', docRef.id)
-      })
-      .catch(function(error: any) {
-        console.error('Error adding document: ', error)
-      })
-  }
-
   return (
     <>
-      <div className="container">This is the Contact Page</div>
-      <button className="button" onClick={testFirebase}>
-        Firebase Test
-      </button>
+      <section className="section has-text-centered">
+        <h1 className="title">Contact Us</h1>
+        <h2 className="subtitle">Ask us anything</h2>
+      </section>
+      <GlobalConsumer>
+        {contextProps => {
+          if (contextProps.fstore === undefined) {
+            return (
+              <section className="section is-large has-text-centered">
+                <p className="is-size-1">
+                  Unable to use the contact form at this moment
+                </p>
+              </section>
+            )
+          } else {
+            return (
+              <section className="section is-small">
+                <ContactForm firebase={contextProps.fstore} />
+              </section>
+            )
+          }
+        }}
+      </GlobalConsumer>
     </>
   )
 }
