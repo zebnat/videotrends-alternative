@@ -9,6 +9,7 @@ import { CookieBanner } from '@palmabit/react-cookie-law'
 import { PrivacyPage } from './components/pages/PrivacyPage'
 import { TermsPage } from './components/pages/TermsPage'
 import { Footer } from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 
 const App: React.FC = (): JSX.Element => {
   let [mainLang, setMainLang] = useState<string>('')
@@ -48,19 +49,23 @@ const App: React.FC = (): JSX.Element => {
   return (
     <>
       <Router>
-        <NavBar />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={props => <HomePage {...props} defaultCountry={mainLang} />}
-          />
-          <Route exact path="/about" component={AboutPage} />
-          <Route exact path="/contact" component={ContactPage} />
-          <Route exact path="/privacy" component={PrivacyPage} />
-          <Route exact path="/terms" component={TermsPage} />
-        </Switch>
-        <Footer />
+        <ScrollToTop>
+          <NavBar />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <HomePage {...props} defaultCountry={mainLang} />
+              )}
+            />
+            <Route exact path="/about" component={AboutPage} />
+            <Route exact path="/contact" component={ContactPage} />
+            <Route exact path="/privacy" component={PrivacyPage} />
+            <Route exact path="/terms" component={TermsPage} />
+          </Switch>
+          <Footer />
+        </ScrollToTop>
       </Router>
       <CookieBanner
         message="We use cookies to ensure you with the best experience. By accepting you agree to our policy."
