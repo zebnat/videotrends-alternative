@@ -32,6 +32,7 @@ export const VideoApp: React.FC<VideoAppProps> = props => {
 
   useEffect(() => {
     changeCountry(props.country)
+    // eslint-disable-next-line
   }, [props.country])
 
   return (

@@ -136,7 +136,7 @@ export const ContactForm: React.FC<ContactFormProps> = props => {
       const jsonFirebaseCFG: string | undefined =
         process.env.REACT_APP_FIREBASECFG
 
-      if (jsonFirebaseCFG == undefined)
+      if (jsonFirebaseCFG === undefined)
         throw Error('unable to read REACT_APP_FIREBASECFG env')
 
       const serviceAccount = JSON.parse(jsonFirebaseCFG)

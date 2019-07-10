@@ -13,13 +13,10 @@ import ScrollToTop from './components/ScrollToTop'
 
 const App: React.FC = (): JSX.Element => {
   let [mainLang, setMainLang] = useState<string>('')
+  // eslint-disable-next-line
   let [allowCookies, setAllowCookies] = useState<boolean>(false)
   let [allowAnalytics, setAllowAnalytics] = useState<boolean>(false)
   let [analyticsInitialized, setAnalyticsInitialized] = useState<boolean>(false)
-
-  const setAnalits = (v: boolean) => {
-    setAnalyticsInitialized(v)
-  }
 
   useEffect(() => {
     if (window.navigator.language !== undefined) {

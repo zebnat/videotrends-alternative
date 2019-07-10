@@ -53,20 +53,19 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
 
   useEffect(() => {
     if (props.country !== '') fetchVideoDataset(props.country)
+    // eslint-disable-next-line
   }, [props.country])
 
   // user changed wanted/unwanted categories
   useEffect(() => {
     let updatedVideos = updateCategories(videos, categoriesBanList)
+    // eslint-disable-next-line
     setVideos(updatedVideos)
+    // eslint-disable-next-line
   }, [categoriesBanList])
 
   let videoList: VideoType[] = smallChannel
-    ? videos.filter(v => {
-        if (v.subs !== undefined) {
-          return v.subs < 100000
-        }
-      })
+    ? videos.filter(v => v.subs < 100000)
     : videos
 
   let videoBlock: JSX.Element
