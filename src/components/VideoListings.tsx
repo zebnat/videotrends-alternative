@@ -10,6 +10,8 @@ import {
 import Video from './Video'
 import './VideoListings.scss'
 import Switch from 'react-switch'
+import ProdjsonToVideoAdapter from '../lib/ProdjsonToVideoAdapter'
+import DevjsonToVideoAdapter from '../lib/devjsonToVideoAdapter'
 
 export const VideoListings = (props: VideoListingsProps): JSX.Element => {
   let [videos, setVideos] = useState<VideoType[]>([])
@@ -33,7 +35,16 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
 
     let res = await axios.get('../data/dataset-' + country + '.json')
 
-    let videos = res.data
+    let videos: VideoType[]
+    let jsonList: Array<any> = res.data
+    if (process.env.NODE_ENV === 'production') {
+      videos = jsonList.map(e => new ProdjsonToVideoAdapter(e))
+    } else if (process.env.NODE_ENV === 'development') {
+      videos = jsonList.map(e => new DevjsonToVideoAdapter(e))
+    } else {
+      videos = jsonList.map(e => new ProdjsonToVideoAdapter(e))
+    }
+
     let categories = prepareBanList(videos)
     setVideos(videos)
     setCategoriesBanList(categories)
@@ -50,25 +61,13 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     setVideos(updatedVideos)
   }, [categoriesBanList])
 
-  let videoList: VideoType[] = []
-
-  if (process.env.NODE_ENV === 'production') {
-    videoList = smallChannel
-      ? videos.filter(v => {
-          if (v.s !== undefined) {
-            return v.s < 100000
-          }
-        })
-      : videos
-  } else if (process.env.NODE_ENV === 'development') {
-    videoList = smallChannel
-      ? videos.filter(v => {
-          if (v.subs !== undefined) {
-            return v.subs < 100000
-          }
-        })
-      : videos
-  }
+  let videoList: VideoType[] = smallChannel
+    ? videos.filter(v => {
+        if (v.subs !== undefined) {
+          return v.subs < 100000
+        }
+      })
+    : videos
 
   let videoBlock: JSX.Element
 
@@ -79,23 +78,38 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
       </div>
     )
   } else {
-    videoBlock = (
-      <ol className="video-list">
-        {videoList.map((video, index) => {
-          let visibleVideo: boolean = true
-          if (process.env.NODE_ENV === 'production') {
-            if (video.v !== undefined) visibleVideo = video.v
-          } else if (process.env.NODE_ENV === 'development') {
-            if (video.visible !== undefined) visibleVideo = video.visible
-          }
+    const passPropsToVideo = (
+      video: VideoType,
+      index: number
+    ): JSX.Element | null => {
+      const videoProps: VideoType = {
+        visible: video.visible,
+        categories: video.categories,
+        categoryId: video.categoryId,
+        channelId: video.channelId,
+        daysAgo: video.daysAgo,
+        details: video.details,
+        href: video.href,
+        lang: video.lang,
+        lazyIndex: video.lazyIndex,
+        normalize: video.normalize,
+        rating: video.rating,
+        spam: video.spam,
+        stats: video.stats,
+        status: video.status,
+        subs: video.subs,
+        thumb: video.thumb,
+        title: video.title,
+        trendCategoryPosition: video.trendCategoryPosition,
+        videoId: video.videoId,
+      }
+      return index < 60 && video.visible ? (
+        <Video key={index} lazyIndex={index} {...videoProps} />
+      ) : null
+    }
 
-          if (index < 60 && visibleVideo) {
-            return <Video key={index} lazyIndex={index} {...video} />
-          } else {
-            return null
-          }
-        })}
-      </ol>
+    videoBlock = (
+      <ol className="video-list">{videoList.map(passPropsToVideo)}</ol>
     )
   }
 
@@ -167,34 +181,14 @@ const updateCategories = (
   let newVideos = videos.map(vid => {
     let foundCategory: boolean = false
     for (let x in simpleCategoryList) {
-      let includesCategory: boolean = false
-
-      if (process.env.NODE_ENV === 'production') {
-        if (vid.c !== undefined) {
-          includesCategory = vid.c.includes(simpleCategoryList[x])
-        }
-      } else if (process.env.NODE_ENV === 'development') {
-        if (vid.categories !== undefined) {
-          includesCategory = vid.categories.includes(simpleCategoryList[x])
-        }
-      }
-
-      if (includesCategory) {
+      if (vid.categories.includes(simpleCategoryList[x])) {
         foundCategory = true
         break
       }
     }
 
-    let returnModifiedVideo: VideoType = {}
-
-    if (process.env.NODE_ENV === 'production') {
-      returnModifiedVideo = Object.assign(vid, { v: !foundCategory })
-    } else if (process.env.NODE_ENV === 'development') {
-      returnModifiedVideo = Object.assign(vid, { visible: !foundCategory })
-    }
-
     // if a banned category is found, set visible to false, true otherwise
-    return returnModifiedVideo
+    return Object.assign(vid, { visible: !foundCategory })
   })
 
   return newVideos

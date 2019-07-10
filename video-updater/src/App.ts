@@ -1,6 +1,11 @@
 import { writeFileSync } from 'fs'
 import { resolve } from 'path'
-import { Locale, Video } from '../../src/common/types'
+import {
+  Locale,
+  Video,
+  ProdVideoJSON,
+  DevVideoJSON,
+} from '../../src/common/types'
 import { applyAlgorithm } from './ApplyAlgorithm'
 import CachedCategoriesFetcher from './CachedCategoriesFetcher'
 import CachedVideoFetcher from './CachedVideoFetcher'
@@ -66,25 +71,48 @@ export class App {
         videoDataPack[index][1]
       )
 
-      let saveVideos: Video[]
+      let saveVideos: Array<ProdVideoJSON | DevVideoJSON>
 
       if (this.config.prodReady) {
         saveVideos = videos.map(v => {
-          let pv: Video = {}
-          pv.v = v.visible
-          pv.t = v.title
-          pv.r = v.rating
-          pv.d = v.daysAgo
-          pv.tm = v.thumb
-          pv.h = v.href
-          pv.c = v.categories
-          pv.s = v.subs
-          return pv
+          const json: ProdVideoJSON = {
+            v: v.visible,
+            t: v.title,
+            r: v.rating,
+            d: v.daysAgo,
+            tm: v.thumb,
+            h: v.href,
+            c: v.categories,
+            s: v.subs,
+          }
+          return json
         })
 
         saveVideos = saveVideos.slice(0, 250)
       } else {
-        saveVideos = videos
+        saveVideos = videos.map(v => {
+          const json: DevVideoJSON = {
+            categories: v.categories,
+            categoryId: v.categoryId,
+            channelId: v.channelId,
+            daysAgo: v.daysAgo,
+            details: v.details,
+            href: v.href,
+            lang: v.lang,
+            normalize: v.normalize,
+            rating: v.rating,
+            spam: v.spam,
+            stats: v.stats,
+            status: v.status,
+            subs: v.subs,
+            thumb: v.thumb,
+            title: v.title,
+            trendCategoryPosition: v.trendCategoryPosition,
+            videoId: v.videoId,
+            visible: v.visible,
+          }
+          return json
+        })
       }
 
       writeFileSync(

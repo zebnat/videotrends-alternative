@@ -11,19 +11,10 @@ type VideoImage = {
 }
 
 const Video: React.FC<VideoType> = props => {
-  let cleanTitle: string = ''
-
-  if (process.env.NODE_ENV == 'production') {
-    if (props.t !== undefined)
-      cleanTitle =
-        props.t.length > 60 ? props.t.substring(0, 60) + ' ...' : props.t
-  } else if (process.env.NODE_ENV == 'development') {
-    if (props.title !== undefined)
-      cleanTitle =
-        props.title.length > 60
-          ? props.title.substring(0, 60) + ' ...'
-          : props.title
-  }
+  let cleanTitle: string =
+    props.title.length > 60
+      ? props.title.substring(0, 60) + ' ...'
+      : props.title
 
   const ImageLazy: React.FC<VideoImage> = props => {
     if (props.lazyIndex === undefined || props.lazyIndex <= 7) {
@@ -49,73 +40,54 @@ const Video: React.FC<VideoType> = props => {
     }
   }
 
-  let render: any = ''
+  const debugInfo = () => {
+    if (props.normalize !== undefined) {
+      const data: JSX.Element[] = props.normalize.map((e, i) => (
+        <pre key={i}>{e}</pre>
+      ))
 
-  if (process.env.NODE_ENV == 'production') {
-    if (props.t !== undefined && props.tm !== undefined) {
-      render = (
+      const cats: JSX.Element[] = props.categories.map((e, i) => (
+        <pre key={i}>{e}</pre>
+      ))
+
+      return (
         <>
-          <li className="trend-video">
-            <a className="tl container" href={props.h}>
-              <ImageLazy
-                lazyIndex={props.lazyIndex}
-                url={props.tm.url}
-                width={props.tm.width}
-                height={props.tm.height}
-                alt={props.t}
-              />
-              <p className="is-size-6 has-text-white">{cleanTitle}</p>
-            </a>
-          </li>
+          <div
+            title={JSON.stringify([
+              props.rating,
+              props.daysAgo,
+              props.stats,
+              props.normalize,
+              props.categories,
+            ])}
+          >
+            {data}
+            {cats}
+          </div>
         </>
       )
-    }
-  } else if (process.env.NODE_ENV == 'development') {
-    if (
-      props.thumb !== undefined &&
-      props.normalize !== undefined &&
-      props.lazyIndex !== undefined &&
-      props.categories !== undefined &&
-      props.title !== undefined
-    ) {
-      render = (
-        <>
-          <li className="trend-video">
-            <a
-              className="tl container"
-              href={props.href}
-              title={JSON.stringify([
-                props.rating,
-                props.daysAgo,
-                props.stats,
-                props.normalize,
-                props.categories,
-              ])}
-            >
-              <ImageLazy
-                lazyIndex={props.lazyIndex}
-                url={props.thumb.url}
-                width={props.thumb.width}
-                height={props.thumb.height}
-                alt={props.title}
-              />
-              <p className="is-size-6 has-text-white">{cleanTitle}</p>
-              <div>
-                {props.normalize.map((e, i) => (
-                  <pre key={i}>{e}</pre>
-                ))}
-                {props.categories.map((e, i) => (
-                  <pre key={i}>{e}</pre>
-                ))}
-              </div>
-            </a>
-          </li>
-        </>
-      )
+    } else {
+      return null
     }
   }
 
-  return render
+  return (
+    <>
+      <li className="trend-video">
+        <a className="tl container" href={props.href}>
+          <ImageLazy
+            lazyIndex={props.lazyIndex}
+            url={props.thumb.url}
+            width={props.thumb.width}
+            height={props.thumb.height}
+            alt={props.title}
+          />
+          <p className="is-size-6 has-text-white">{cleanTitle}</p>
+        </a>
+        {debugInfo()}
+      </li>
+    </>
+  )
 }
 
 export default Video
