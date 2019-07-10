@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
 import { Link } from 'react-router-dom'
 
 interface FormDataType {
@@ -12,7 +10,7 @@ interface FormDataType {
 }
 
 type ContactFormProps = {
-  firebase: firebase.firestore.Firestore
+  firebase: any
 }
 
 export const ContactForm: React.FC<ContactFormProps> = props => {
@@ -130,10 +128,26 @@ export const ContactForm: React.FC<ContactFormProps> = props => {
     return valid
   }
 
-  const sendToFirebase = () => {
+  const sendToFirebase = async () => {
+    const firebase = await import('firebase/app')
+    await import('firebase/firestore')
+
+    if (!firebase.apps.length) {
+      const jsonFirebaseCFG: string | undefined =
+        process.env.REACT_APP_FIREBASECFG
+
+      if (jsonFirebaseCFG == undefined)
+        throw Error('unable to read REACT_APP_FIREBASECFG env')
+
+      const serviceAccount = JSON.parse(jsonFirebaseCFG)
+      firebase.initializeApp(serviceAccount)
+    }
+
+    const fstore = firebase.firestore()
+
     let now = firebase.firestore.Timestamp.fromDate(new Date())
 
-    props.firebase
+    fstore
       .collection('contacts')
       .add({
         name: name,
