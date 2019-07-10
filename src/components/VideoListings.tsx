@@ -50,18 +50,47 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     setVideos(updatedVideos)
   }, [categoriesBanList])
 
-  const videoList = smallChannel ? videos.filter(v => v.subs < 100000) : videos
+  let videoList: VideoType[] = []
+
+  if (process.env.NODE_ENV === 'production') {
+    videoList = smallChannel
+      ? videos.filter(v => {
+          if (v.s !== undefined) {
+            return v.s < 100000
+          }
+        })
+      : videos
+  } else if (process.env.NODE_ENV === 'development') {
+    videoList = smallChannel
+      ? videos.filter(v => {
+          if (v.subs !== undefined) {
+            return v.subs < 100000
+          }
+        })
+      : videos
+  }
 
   let videoBlock: JSX.Element
 
   if (props.country === '') {
-    videoBlock = <p>Please select your Country first</p>
+    videoBlock = (
+      <div className="container has-text-centered section is-large">
+        <p className="is-size-2">Select country</p>
+      </div>
+    )
   } else {
     videoBlock = (
       <ol className="video-list">
         {videoList.map((video, index) => {
-          if (index < 60 && video.visible) {
-            return <Video key={video.videoId} lazyIndex={index} {...video} />
+          let visibleVideo: boolean = true
+          if (process.env.NODE_ENV === 'production') {
+            if (video.v !== undefined) visibleVideo = video.v
+          } else if (process.env.NODE_ENV === 'development') {
+            if (video.visible !== undefined) visibleVideo = video.visible
+          }
+
+          if (index < 60 && visibleVideo) {
+            return <Video key={index} lazyIndex={index} {...video} />
           } else {
             return null
           }
@@ -71,7 +100,9 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
   }
 
   const stillLoading = (
-    <div className="container has-text-centered	">Loading Videos ...</div>
+    <div className="container has-text-centered	section is-large">
+      <p className="is-size-2">Loading ...</p>
+    </div>
   )
 
   const loaded = () => {
@@ -136,14 +167,34 @@ const updateCategories = (
   let newVideos = videos.map(vid => {
     let foundCategory: boolean = false
     for (let x in simpleCategoryList) {
-      if (vid.categories.includes(simpleCategoryList[x])) {
+      let includesCategory: boolean = false
+
+      if (process.env.NODE_ENV === 'production') {
+        if (vid.c !== undefined) {
+          includesCategory = vid.c.includes(simpleCategoryList[x])
+        }
+      } else if (process.env.NODE_ENV === 'development') {
+        if (vid.categories !== undefined) {
+          includesCategory = vid.categories.includes(simpleCategoryList[x])
+        }
+      }
+
+      if (includesCategory) {
         foundCategory = true
         break
       }
     }
 
+    let returnModifiedVideo: VideoType = {}
+
+    if (process.env.NODE_ENV === 'production') {
+      returnModifiedVideo = Object.assign(vid, { v: !foundCategory })
+    } else if (process.env.NODE_ENV === 'development') {
+      returnModifiedVideo = Object.assign(vid, { visible: !foundCategory })
+    }
+
     // if a banned category is found, set visible to false, true otherwise
-    return Object.assign(vid, { visible: !foundCategory })
+    return returnModifiedVideo
   })
 
   return newVideos

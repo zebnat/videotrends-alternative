@@ -10,9 +10,15 @@ if (process.env.CACHE === 'NO') {
   cache = false
 }
 
+let prodReady: boolean = false
+if (process.env.PROD === 'YES') {
+  prodReady = true
+}
+
 const config: Config = {
   apikey: process.env.YOUTUBEAPI,
   cache: cache,
+  prodReady: prodReady,
   regionList: RegionList,
   cacheFiles: {
     categories: resolve('./cache/categories.json'),
