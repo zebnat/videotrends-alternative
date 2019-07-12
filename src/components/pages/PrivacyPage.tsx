@@ -1,10 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import owner from '../../img/owner.png'
+import Helmet from 'react-helmet'
 
 export const PrivacyPage = () => {
   return (
     <>
+      <Helmet>
+        <title>Ytrends Privacy Information</title>
+        <meta
+          name="description"
+          content="Please read our privacy policy and understand what data we use and what we do with it. You should care about your privacy!"
+        />
+      </Helmet>
       <section className="section is-small">
         <h1 className="title">Privacy Policy</h1>
         <h2 className="subtitle">What we do with your data</h2>

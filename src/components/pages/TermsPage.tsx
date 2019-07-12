@@ -1,10 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import owner from '../../img/owner.png'
+import Helmet from 'react-helmet'
 
 export const TermsPage = () => {
   return (
     <>
+      <Helmet>
+        <title>Ytrends Terms and Conditions</title>
+        <meta
+          name="description"
+          content="Legal Terms and conditions you whould read in order to comply with our rules and regulations."
+        />
+      </Helmet>
       <section className="section is-small">
         <h1 className="title">Ytrends.net Terms and Conditions</h1>
         <h2 className="subtitle">Rules and regulations</h2>

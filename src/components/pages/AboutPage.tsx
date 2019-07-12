@@ -1,9 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Helmet from 'react-helmet'
 
 export const AboutPage = () => {
   return (
     <>
+			<Helmet>
+				<title>About Ytrends</title>
+				<meta name="description" content="What is Ytrends? It's an alternative to official algorithms for video trends. You can learn more by entering this site." />
+			</Helmet>
       <div className="column is-8 is-offset-2">
         <section className="section has-text-centered is-small">
           <h1 className="title is-size-2">About Ytrends</h1>
