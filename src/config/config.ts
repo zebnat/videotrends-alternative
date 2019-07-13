@@ -1,5 +1,7 @@
 import { Locale } from '../common/types'
 
+export const MAX_VIDEOS_SHOWN: number = 60
+
 export const RegionList: Locale[] = [
   {
     language: 'es',

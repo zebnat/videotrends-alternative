@@ -6,12 +6,14 @@ import {
   BannedCategory,
   prepareBanList,
   useBanCategories,
+  sortCategoriesDesc,
 } from './BanCategories'
 import Video from './Video'
 import './VideoListings.scss'
 import Switch from 'react-switch'
 import ProdjsonToVideoAdapter from '../lib/ProdjsonToVideoAdapter'
 import DevjsonToVideoAdapter from '../lib/devjsonToVideoAdapter'
+import { MAX_VIDEOS_SHOWN } from '../config/config'
 
 export const VideoListings = (props: VideoListingsProps): JSX.Element => {
   let [videos, setVideos] = useState<VideoType[]>([])
@@ -46,6 +48,7 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     }
 
     let categories = prepareBanList(videos)
+    categories.sort(sortCategoriesDesc)
     setVideos(videos)
     setCategoriesBanList(categories)
     setLoading(false)
@@ -102,13 +105,16 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
         trendCategoryPosition: video.trendCategoryPosition,
         videoId: video.videoId,
       }
-      return index < 60 && video.visible ? (
+
+      return index < MAX_VIDEOS_SHOWN ? (
         <Video key={index} lazyIndex={index} {...videoProps} />
       ) : null
     }
 
     videoBlock = (
-      <ol className="video-list">{videoList.map(passPropsToVideo)}</ol>
+      <ol className="video-list">
+        {videoList.filter(v => v.visible).map(passPropsToVideo)}
+      </ol>
     )
   }
 
@@ -126,12 +132,20 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     const OpenFilters = () => {
       return (
         <section className="section container">
+          <h3 className="title is-size-5">Disable unwanted categories</h3>
+          <hr />
           <BanCategories categories={categoriesBanList} onClick={banCategory} />
-          <div className="is-pulled-left">
-            <Switch onChange={toogleSmall} checked={smallChannel} />
-          </div>
-          <div className="is-pulled-left" style={{ margin: '5px 15px' }}>
-            Discover Small Channels
+          <hr />
+          <div className="has-text-centered">
+            <div className="small-channels">
+              <div className="is-pulled-left">
+                <Switch onChange={toogleSmall} checked={smallChannel} />
+              </div>
+              <div className="is-pulled-left" style={{ margin: '5px 15px' }}>
+                Discover Small Channels
+              </div>
+              <div className="is-clearfix"></div>
+            </div>
           </div>
         </section>
       )
@@ -140,7 +154,7 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     const ClosedFilters = () => {
       return (
         <button className="button is-primary" onClick={openFilter}>
-          Manage filters
+          Customize
         </button>
       )
     }
