@@ -27,6 +27,6 @@ yarn-error.log*
 
 /video-updater/**/*.js
 /src/config/**/*.js
-/cache/*
+/cache/*.json
 
-/public/data/*
+/public/data/*.json
