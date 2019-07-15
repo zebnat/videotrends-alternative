@@ -33,6 +33,8 @@ COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
 
 COPY cmd.sh ./cmd.sh
 
+RUN ["chmod", "+x", "cmd.sh"]
+
 EXPOSE 80
 
 STOPSIGNAL SIGTERM

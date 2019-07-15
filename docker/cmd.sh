@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env ash
 
 # Execute node-cron in background
 node /home/ytrends/ytrends/cron/cron.js &
