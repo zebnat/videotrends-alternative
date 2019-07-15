@@ -5,10 +5,13 @@ import Helmet from 'react-helmet'
 export const AboutPage = () => {
   return (
     <>
-			<Helmet>
-				<title>About Ytrends</title>
-				<meta name="description" content="What is Ytrends? It's an alternative to official algorithms for video trends. You can learn more by entering this site." />
-			</Helmet>
+      <Helmet>
+        <title>About Ytrends</title>
+        <meta
+          name="description"
+          content="What is Ytrends? It's an alternative to official algorithms for video trends. You can learn more by entering this site."
+        />
+      </Helmet>
       <div className="column is-8 is-offset-2">
         <section className="section has-text-centered is-small">
           <h1 className="title is-size-2">About Ytrends</h1>
@@ -24,7 +27,7 @@ export const AboutPage = () => {
             </p>
             <h3>Motivation</h3>
             <p>
-              Ytrends was created in order to have an alternative for the
+              Ytrends was created in order to have an alternative to the
               official source of trending videos. As a consumer of trends from
               Youtube I was not pleased with the algorithm. Ytrends makes use of
               the official Youtube API and applies a custom algorithm in order

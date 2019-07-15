@@ -20,9 +20,9 @@ export const PrivacyPage = () => {
       <section className="section is-small">
         <div className="content">
           <p>This website is operated by an individual, not a company.</p>
-          <div className="has-text-centered">
+          {/*<div className="has-text-centered">
             <img src={owner} alt="site owner" />
-          </div>
+	</div>*/}
           <p>
             This page is used to inform website visitors regarding our policies
             with the collection, use, and disclosure of Personal Information if

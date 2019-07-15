@@ -16,6 +16,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="content">
+        {/*
         <p>
           <strong>Ytrends </strong> service was created by{' '}
           <a href="https://www.danieldev.es">Daniel Domínguez Rubio</a>
@@ -25,7 +26,7 @@ export const Footer = () => {
           <a href="http://opensource.org/licenses/mit-license.php">MIT</a>{' '}
           License, you can fork it, change it or use certain parts but you must
           credit the author.
-        </p>
+				</p>*/}
         <section className="section is-small">
           <p>Created with:</p>
           <div className="columns is-vcentered">
@@ -141,8 +142,8 @@ export const Footer = () => {
           </div>
         </section>
         <section className="section is-small">
-          © Copyright 2019 - {new Date().getFullYear()} : Site content, logos or
-          trademarks are not allowed to use without permission.
+          © Copyright 2019 - {new Date().getFullYear()} : Any content, logos,
+          pictures and trademarks are not allowed to use without permission.
         </section>
       </div>
     </footer>

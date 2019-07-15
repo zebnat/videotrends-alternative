@@ -4,20 +4,20 @@ export const MAX_VIDEOS_SHOWN: number = 60
 
 export const RegionList: Locale[] = [
   {
-    language: 'es',
-    country: 'es',
-    screenName: 'España (Spain)',
-  },
-  {
     language: 'en',
     country: 'us',
     screenName: 'United States',
-  } /*
+  },
+  {
+    language: 'es',
+    country: 'es',
+    screenName: 'Spain',
+  },
   {
     language: 'fr',
     country: 'fr',
     screenName: 'France',
-  },
+  } /*,
   {
     language: 'de',
     country: 'de',
@@ -31,7 +31,7 @@ export const RegionList: Locale[] = [
   {
     language: 'it',
     country: 'it',
-    screenName: 'Italia',
+    screenName: 'Italy',
   },
   {
     language: 'en',
@@ -51,26 +51,21 @@ export const RegionList: Locale[] = [
   {
     language: 'zh',
     country: 'hk',
-    screenName: '香港粵語',
+    screenName: 'Hong Kong',
   },
   {
     language: 'ar',
     country: 'qa',
-    screenName: 'قطر',
-  },
-  {
-    language: 'ar',
-    country: 'kw',
-    screenName: 'الكويت',
+    screenName: 'Kuwait/Qatar',
   },
   {
     language: 'ja',
     country: 'jp',
-    screenName: '日本',
+    screenName: 'Japan',
   },
   {
     language: 'ko',
     country: 'kr',
-    screenName: '대한민국',
+    screenName: 'S.Korea',
   },*/,
 ]

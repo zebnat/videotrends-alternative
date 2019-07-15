@@ -20,9 +20,9 @@ export const TermsPage = () => {
       <section className="section is-small">
         <div className="content">
           <p>This website is operated by an individual, not a company.</p>
-          <div className="has-text-centered">
+          {/*<div className="has-text-centered">
             <img src={owner} alt="site owner" />
-          </div>
+	</div>*/}
           <p>
             By accessing this website we assume you accept these terms and
             conditions. Do not continue to use Ytrends if you do not agree to
