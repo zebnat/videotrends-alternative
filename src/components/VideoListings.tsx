@@ -30,12 +30,23 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     setSmallChannel(!smallChannel)
   }
 
+  const getDateCache = (): string => {
+    const date = new Date()
+    const year = date.getUTCFullYear()
+    const month = date.getUTCMonth() + 1
+    const day = date.getUTCDate()
+    const hour = Math.ceil(date.getUTCHours() / 8) // hours as (1,2,3) 3 times a day, each 8 hours changes
+    const dateCache = [year, month, day, hour].join('-')
+    return dateCache
+  }
   const fetchVideoDataset = async (country: string) => {
     setLoading(true)
     setFiltersOpen(false)
     setSmallChannel(false)
 
-    let res = await axios.get('../data/dataset-' + country + '.json')
+    let res = await axios.get(
+      '../data/dataset-' + country + '.json?cache=' + getDateCache()
+    )
 
     let videos: VideoType[]
     let jsonList: Array<any> = res.data
