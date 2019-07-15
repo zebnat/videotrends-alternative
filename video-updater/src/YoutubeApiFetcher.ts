@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from './AxiosRetryCfg'
+import { AxiosResponse } from 'axios'
 import { UrlParamEncoder } from './Utils'
 
 export interface IVideoCategoriesConfig {
