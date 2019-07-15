@@ -12,7 +12,7 @@ export const RegionList: Locale[] = [
     language: 'en',
     country: 'us',
     screenName: 'United States',
-  },
+  } /*
   {
     language: 'fr',
     country: 'fr',
@@ -72,5 +72,5 @@ export const RegionList: Locale[] = [
     language: 'ko',
     country: 'kr',
     screenName: '대한민국',
-  },
+  },*/,
 ]
