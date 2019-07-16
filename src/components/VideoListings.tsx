@@ -35,7 +35,8 @@ export const VideoListings = (props: VideoListingsProps): JSX.Element => {
     const year = date.getUTCFullYear()
     const month = date.getUTCMonth() + 1
     const day = date.getUTCDate()
-    const hour = Math.ceil(date.getUTCHours() / 8) // hours as (1,2,3) 3 times a day, each 8 hours changes
+    // hours as (1,2,3,4,5) blocks each 5 hours block changes and cache flushes
+    const hour = Math.ceil(date.getUTCHours() / 5)
     const dateCache = [year, month, day, hour].join('-')
     return dateCache
   }
