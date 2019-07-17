@@ -35,7 +35,8 @@
     "eject": "react-scripts eject",
     "videos": "tsc ./video-updater/index.ts && node ./video-updater/index.js",
     "serve": "serve -s build",
-    "prettier": "prettier --write \"./{src,video-updater}/**/*.{tsx,css,ts,js}\""
+    "prettier": "prettier --write \"./{src,video-updater}/**/*.{tsx,css,ts,js}\"",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "eslintConfig": {
     "extends": "react-app"
