@@ -2,7 +2,7 @@ var CronJob = require('cron').CronJob
 var exec = require('child_process').exec
 
 new CronJob(
-  '0 0 */24 * * *',
+  '0 0 0 */1 * *',
   function() {
     exec(
       'cd /home/ytrends/repo/ && CACHE=NO npm run videos && cp /home/ytrends/repo/public/data/*.json /app/data/',
