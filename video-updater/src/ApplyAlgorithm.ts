@@ -15,6 +15,7 @@ enum NormSts {
   tagsPenalty,
   commentsToViewRatio,
   youtubeScore,
+  likePercentTrust,
 }
 
 type VideosDataGroup = {
@@ -37,6 +38,35 @@ function normalise(
   } else {
     return ((value - min) / range) * range2 + x
   }
+}
+
+function getVotesTrustBonus(likes: number, likesPercent: number): number {
+  var minimum_votes_to_equal_abs_value = 200
+  var diff = null
+  var trustdiff = null
+  var real = null
+  var bonus = Math.floor(likes / 200)
+  var q =
+    likes > minimum_votes_to_equal_abs_value
+      ? minimum_votes_to_equal_abs_value
+      : likes
+
+  var midpoint = 50
+  if (likesPercent > midpoint) {
+    // se sumará a 50
+    diff = likesPercent - midpoint
+    trustdiff = (q * diff) / minimum_votes_to_equal_abs_value + 0.2 * bonus
+    real = midpoint + trustdiff
+  } else if (likesPercent < midpoint) {
+    // se restara a 50
+    diff = (likesPercent - midpoint) * -1
+    trustdiff = (q * diff) / minimum_votes_to_equal_abs_value - 0.2 * bonus
+    real = midpoint - trustdiff
+  } else {
+    real = midpoint
+  }
+
+  return real
 }
 
 function detectSpam(str: string): number {
@@ -80,13 +110,13 @@ function fillWithData(videos: Video[], data: VideosDataGroup): void {
           (24 * 60 * 60 * 1000)
       )
     )
-    let views = r.statistics.viewCount || 0
-    let likes = r.statistics.likeCount || 0
-    let dislikes = r.statistics.dislikeCount || 0
-    let comments = r.statistics.commentCount || 0
+    let views = parseInt(r.statistics.viewCount) || 0
+    let likes = parseInt(r.statistics.likeCount) || 0
+    let dislikes = parseInt(r.statistics.dislikeCount) || 0
+    let comments = parseInt(r.statistics.commentCount) || 0
     let subs = parseInt(data.channels[r.snippet.channelId].subs)
     let viewTosubRatio = subs > 0 ? (views / subs > 3 ? 3 : views / subs) : 0
-    let likeToDislikeRatio = !likes || !dislikes ? 0 : likes / dislikes
+    let likeToDislikeRatio = (likes * 100) / (likes + dislikes + 1)
     let likeToViewRatio = views > 0 && likes > 0 ? likes / views : 0
     let spam = 100000000000 + (0 - detectSpam(r.snippet.title))
     let tags = r.snippet.tags == undefined ? 0 : r.snippet.tags.length
@@ -108,6 +138,10 @@ function fillWithData(videos: Video[], data: VideosDataGroup): void {
     pNormData[NormSts.tagsPenalty] = tagsPenalty
     pNormData[NormSts.commentsToViewRatio] = commentsToViewRatio
     pNormData[NormSts.youtubeScore] = youtubeScore
+    pNormData[NormSts.likePercentTrust] = getVotesTrustBonus(
+      likes,
+      likeToDislikeRatio
+    )
 
     for (let x in pNormData) {
       if (pNormData[x] == null) throw Error('null data in pNormData index ' + x)
@@ -145,18 +179,19 @@ function applyRankingsToVideos(videos: Video[], nData: number[][]): void {
     let importanceRating: number[] = []
     // rate from 1 to 10
     // you can configure this block
-    importanceRating[NormSts.likeToViewRatio] = 2
-    importanceRating[NormSts.likeToDislikeRatio] = 6
+    importanceRating[NormSts.likeToViewRatio] = 3
+    importanceRating[NormSts.likeToDislikeRatio] = 4
     importanceRating[NormSts.viewTosubRatio] = 1
-    importanceRating[NormSts.subs] = 7
-    importanceRating[NormSts.comments] = 9
-    importanceRating[NormSts.dislikes] = 2
-    importanceRating[NormSts.likes] = 10
-    importanceRating[NormSts.views] = 8
+    importanceRating[NormSts.subs] = 4
+    importanceRating[NormSts.comments] = 5
+    importanceRating[NormSts.dislikes] = 1
+    importanceRating[NormSts.likes] = 5
+    importanceRating[NormSts.views] = 5
     importanceRating[NormSts.spam] = 1
-    importanceRating[NormSts.tagsPenalty] = 0.5
+    importanceRating[NormSts.tagsPenalty] = 1
     importanceRating[NormSts.commentsToViewRatio] = 2
     importanceRating[NormSts.youtubeScore] = 0.5
+    importanceRating[NormSts.likePercentTrust] = 7
     // end algorithm
 
     let logNormalized: number[] = []
@@ -164,23 +199,29 @@ function applyRankingsToVideos(videos: Video[], nData: number[][]): void {
     let totalImportance: number = importanceRating.reduce((a, b) => a + b, 0)
 
     let scoreFormula: number = 1
-
+    let scoreFormulaAgregatte: number = 1
+    let scoreFormulaDirect: number = 1
     for (let z in NormSts) {
       if (!isNaN(Number(z))) {
         logNormalized[z] = nData[z][i]
-        scoreFormula =
-          scoreFormula + nData[z][i] * (importanceRating[z] / totalImportance)
+        scoreFormulaDirect =
+          scoreFormulaDirect *
+          (1 + nData[z][i] * (importanceRating[z] / totalImportance))
+        scoreFormulaAgregatte =
+          scoreFormulaAgregatte +
+          nData[z][i] * (importanceRating[z] / totalImportance)
       }
     }
 
-    //videos[i].rating = nData[NormSts.youtubeScore][i]
+    scoreFormula = (scoreFormulaAgregatte + scoreFormulaDirect) / 2
+
     videos[i].normalize = logNormalized
 
     //videos[i].rating = videos[i].normalize[NormSts.likeToDislikeRatio]
 
     videos[i].rating =
       vidData.daysAgo < 1
-        ? 0
+        ? scoreFormula - scoreFormula * 0.09
         : scoreFormula - scoreFormula * 0.08 * vidData.daysAgo
   })
 

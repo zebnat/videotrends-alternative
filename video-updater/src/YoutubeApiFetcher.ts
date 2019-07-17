@@ -83,11 +83,11 @@ type VideoContentDetails = {
 }
 
 type VideoStatistics = {
-  viewCount: number
-  likeCount: number
-  dislikeCount: number
-  favoriteCount: number
-  commentCount: number
+  viewCount: string
+  likeCount: string
+  dislikeCount: string
+  favoriteCount: string
+  commentCount: string
 }
 export type VideoResource = {
   kind: string
