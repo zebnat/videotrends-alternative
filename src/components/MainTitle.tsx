@@ -11,7 +11,9 @@ export const MainTitle = () => {
       <div className="subtitle is-size-4">
         An alternative list of trending videos{' '}
         <Link to={'/about'}>Learn more</Link>
-        <p className="is-size-6">Alpha version 0.11.6</p>
+        <p className="is-size-6">
+          Alpha version {process.env.REACT_APP_VERSION}
+        </p>
       </div>
     </section>
   )
