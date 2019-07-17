@@ -1,6 +1,6 @@
 {
   "name": "videotrends-alternative",
-  "version": "0.28.10",
+  "version": "0.28.11",
   "private": true,
   "dependencies": {
     "@palmabit/react-cookie-law": "^0.2.5",

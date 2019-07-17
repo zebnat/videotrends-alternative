@@ -1,3 +1,12 @@
+## [0.28.11](https://github.com/zebnat/videotrends-alternative/compare/v0.28.10...v0.28.11) (2019-07-17)
+
+
+### Bug Fixes
+
+* show app version from package version ([eabaada](https://github.com/zebnat/videotrends-alternative/commit/eabaada))
+
+
+
 ## 0.28.10 (2019-07-17)
 
 
