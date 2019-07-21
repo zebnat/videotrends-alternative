@@ -1,3 +1,13 @@
+## [0.28.12](https://github.com/zebnat/videotrends-alternative/compare/v0.28.11...v0.28.12) (2019-07-21)
+
+
+### Bug Fixes
+
+* changed cron, now has a delay then setups ([5283a2f](https://github.com/zebnat/videotrends-alternative/commit/5283a2f))
+* tunning up order algorithm ([fca1619](https://github.com/zebnat/videotrends-alternative/commit/fca1619))
+
+
+
 ## [0.28.11](https://github.com/zebnat/videotrends-alternative/compare/v0.28.10...v0.28.11) (2019-07-17)
 
 
