@@ -186,7 +186,7 @@ function applyRankingsToVideos(videos: Video[], nData: number[][]): void {
     importanceRating[NormSts.comments] = 5
     importanceRating[NormSts.dislikes] = 1
     importanceRating[NormSts.likes] = 5
-    importanceRating[NormSts.views] = 5
+    importanceRating[NormSts.views] = 10
     importanceRating[NormSts.spam] = 1
     importanceRating[NormSts.tagsPenalty] = 1
     importanceRating[NormSts.commentsToViewRatio] = 2
@@ -213,7 +213,7 @@ function applyRankingsToVideos(videos: Video[], nData: number[][]): void {
       }
     }
 
-    scoreFormula = (scoreFormulaAgregatte + scoreFormulaDirect) / 2
+    scoreFormula = scoreFormulaAgregatte * 0.75 + scoreFormulaDirect * 0.25
 
     videos[i].normalize = logNormalized
 
