@@ -13,8 +13,11 @@ ARG GITHUB
 
 ARG CACHE
 
-RUN git clone https://${GITHUB}:x-oauth-basic@github.com/zebnat/videotrends-alternative.git repo \
-	&& cd repo \
+# RUN git clone https://${GITHUB}:x-oauth-basic@github.com/zebnat/videotrends-alternative.git repo \
+# 	&& cd repo \
+#	&& npm install
+RUN git clone https://github.com/zebnat/videotrends-alternative.git repo \
+ 	&& cd repo \
 	&& npm install
 
 COPY .env repo/
