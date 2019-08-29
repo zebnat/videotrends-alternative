@@ -17,17 +17,17 @@ export const RegionList: Locale[] = [
     language: 'fr',
     country: 'fr',
     screenName: 'France',
-  } /*,
+  },
   {
     language: 'de',
     country: 'de',
     screenName: 'Germany',
   },
-  {
+  /*{
     language: 'nl',
     country: 'nl',
     screenName: 'Netherlands',
-  },
+  },*/
   {
     language: 'it',
     country: 'it',
@@ -53,11 +53,11 @@ export const RegionList: Locale[] = [
     country: 'hk',
     screenName: 'Hong Kong',
   },
-  {
+  /*{
     language: 'ar',
     country: 'qa',
     screenName: 'Kuwait/Qatar',
-  },
+  },*/
   {
     language: 'ja',
     country: 'jp',
@@ -67,5 +67,5 @@ export const RegionList: Locale[] = [
     language: 'ko',
     country: 'kr',
     screenName: 'S.Korea',
-  },*/,
+  },
 ]
